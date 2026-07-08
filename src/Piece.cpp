@@ -25,9 +25,13 @@ Piece::Piece(Cell pos) //defines all the pieces on an x,y grid
 
 void Piece::fall_down() // automatically causes pieces to fall
 {
-    pos.move(0, -1); //allows piece to continue falling while rotating
+    #ifndef _WIN32
+    pos.move(0, +1); //allows piece to continue falling while rotating
     for (auto& point : body) // creates a pointer that points to the address of 'body'
-        point.move(0, -1); //move the pieces down automatically -1 y positions during each iteration
+        point.move(0, +1); //move the pieces down automatically -1 y positions during each iteration
+    #else
+    //define for Windows here
+    #endif
 }
 
 vector<Cell> Piece::fallenbody() // allows the piece's body to shift downward by creating a copy of it at -1y increments

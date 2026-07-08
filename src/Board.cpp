@@ -29,22 +29,56 @@ void Board::insert_to_built_points(vector<Cell> insert_points)
     
 }
 
-void Board::set_border() //creates the board's design
+void Board::set_border()
 {
-    for (auto& point : all_points) // points to all points on the board
+    for (auto& point : all_points)
     {
-        if (point.get_x() == 1 || point.get_x() == width - 2) // sets the graphical design of the board by assigning characters to different x and y values
-            point.set_type('!');
-        else if (point.get_y() == 1)
-            point.set_type('=');
-        else if (point.get_x() == 0)
+        int x = point.get_x();
+        int y = point.get_y();
+
+        if (y == height - 1)
+        {
+            if (x == 0 || x == width - 1)
+            {
+                point.set_type(' ');
+            }
+            else if (x % 2 == 0)
+            {
+                point.set_type('/');
+            }
+            else
+            {
+                point.set_type('\\');
+            }
+        }
+        else if (y == height - 2)
+        {
+            if (x == 0)
+                point.set_type('<');
+            else if (x == width - 1)
+                point.set_type('>');
+            else
+                point.set_type('=');
+        }
+        else if (x == 0)
+        {
             point.set_type('<');
-        else if (point.get_x() == width - 1)
+        }
+        else if (x == width - 1)
+        {
             point.set_type('>');
-        else if (point.get_y() == 0)
-            point.set_type('v');
-        else
+        }
+        else if (x == 1 || x == width - 2)
+        {
+            point.set_type('!');
+        }
+        else if (x % 2 != 0)
+        {
             point.set_type('.');
+        }
+        else {
+            point.set_type(' ');
+        }
     }
 }
 

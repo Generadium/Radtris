@@ -6,48 +6,91 @@ Game::Game() // Game constructor
     : run {true}
 {
     
-
     do // do while loop, run the game while regame is still true
     {
-        system("cls"); //clears the screen after each game
-        board = Board(14, 22); // initializes the board dimensions using the board class constructor
+        //system("cls");
+        clear();
+        refresh();
+        board = Board(24, 22); // initializes the board dimensions using the board class constructor
         running(); // main game loop
     } while (regame());
 }
 
+#ifndef _WIN32
+void Game::InitConsole()
+{
+    initscr();
+    noecho();
+    cbreak();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
+}
 
+void Game::ShutdownConsole()
+{
+    endwin();
+}
+#endif
+
+void Game::DrawAt(int x, int y, char ch){
+    #ifdef _WIN32
+    COORD pos;
+    pos.X = x;
+    pos.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    std::cout << ch;
+    #else
+    mvaddch(y, x, ch);
+    #endif
+}
+
+void Game::DrawAt(int x, int y, const char *text){
+    #ifdef _WIN32
+    COORD pos;
+    pos.X = x;
+    pos.Y = y;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+    std::cout << text;
+    #else
+    mvprintw(y, x, "%s", text);
+    #endif
+}
 
 void Game::running() //runs in the background while the game is running
 {
+    #ifndef _WIN32
+    InitConsole();
+    #endif
     while (!game_over()) //while it is not game over 
     {
-        curr_piece = Piece(Cell((board.get_width() - 1) / 2, board.get_height() - 2, 'ß')); // sets the composition of the pieces, ß prints a block on the board
+        //curr_piece = Piece(Cell((board.get_width() - 1) / 2, board.get_height() - 15, 'ß')); // spawns piece at the starting point
         while (!blocksland())
         {
-            speedCounter++; // speedCounter increases by 1 with each refresh of the game
-            speed = 90;
-            if (speedCounter % 2)
-            {
-                curr_piece.fall_down(); // pieces automatically fall down
+            // speedCounter++; // speedCounter increases by 1 with each refresh of the game
+            // speed = 90;
+            // if (speedCounter % 2)
+            // {
+            //     curr_piece.fall_down(); // pieces automatically fall down
                 
-            }
+            // }
 
-            ClearScreen();//prevents screen flickering by clearing the screen each time the board is refreshed
-            linesbuilt += board.remove_row(); // adds points when a row is removed
+            // ClearScreen();//prevents screen flickering by clearing the screen each time the board is refreshed
+            // linesbuilt += board.remove_row(); // adds points when a row is removed
 
-            for (int i = 0; i <= linesbuilt; i++) //nested for loops for the scoring system, adds 25 for each piece placed and 100 for each line filled
-            {
-                for (int j = 0; j <= piececount; j++)
-                {
-                    score = (i * 100) + (j * 25);
+            // for (int i = 0; i <= linesbuilt; i++) //nested for loops for the scoring system, adds 25 for each piece placed and 100 for each line filled
+            // {
+            //     for (int j = 0; j <= piececount; j++)
+            //     {
+            //         score = (i * 100) + (j * 25);
                     
-                }
-            }
+            //     }
+            // }
             board.refresh(); //refreshes the board
             refreshall(); //refreshes all points on the board
             draw(); //draws the board
             controls(); // keyboard controls
-            Sleep(speed); //controls the speed
+            std::this_thread::sleep_for(std::chrono::milliseconds(speed)); //controls speed
 
         }
     }
@@ -56,10 +99,12 @@ void Game::running() //runs in the background while the game is running
         score = 0; // resets the game stats when the game is over
         linesbuilt = 0;
         piececount = 0;
+        #ifndef _WIN32
+        ShutdownConsole();
+        #endif
     }
    
 }
-
 
 bool Game::game_over() //declares the game over
 {
@@ -70,9 +115,6 @@ bool Game::game_over() //declares the game over
         }
     return false;
 }
-
-
-
 
 bool Game::regame() //game over screen, asks the player to play again
 {
@@ -93,22 +135,20 @@ bool Game::regame() //game over screen, asks the player to play again
     } while (invalid);
 }
 
-
-
 bool Game::blocksland() // sends the bodies of pieced that land to built points when they land 
 {
 
     for (const auto& next_piece_pnt : curr_piece.fallenbody()) //const pointer that points to curr_piece.next_fall_down_body()
     {
         //Sets the piece to hit the ground
-        if (next_piece_pnt.get_y() == 1)  //if piece hits y = 1
+        //For Windows, y == 1
+        if (next_piece_pnt.get_y() == 18)  //if piece hits y = 1
         {
             board.insert_to_built_points(curr_piece.get_body());//sends current piece to built points (tiles that have been built)
             piececount += 1; // adds to piece count
             return true;
         }
       
-           
         //Sets piece to hit built points
         for (auto& built_pnt : board.get_built_points()) // if piece lands on top of a built piece
             if (next_piece_pnt == built_pnt) 
@@ -117,14 +157,11 @@ bool Game::blocksland() // sends the bodies of pieced that land to built points 
                 piececount += 1; //adds to piece count
                 return true;
             }
-           
-               
+              
     }
 
     return false;
 }
-
-
 
 bool Game::checked_move(enum move_direction dir)
 {
@@ -169,51 +206,96 @@ void Game::refreshall()
 void Game::draw() //creates the board
 {
    
-    
     for (int i = (board.get_height() - 1); i >= 0; i--) // double nested for loop
     { 
         for (int j = 0; j < board.get_width(); j++) {
             auto t = find(final_points.begin(), final_points.end(), Cell(j, i)); // uses find function to find all final points within range of for loop
-            cout << t->get_type(); // sets all cells on the board to their appropriate type depending on their designation by set_border
+            //THIS NEEDS TO BE MODIFIED FOR LINUX
+            DrawAt(j,i, t->get_type());
+            //cout << t->get_type(); // sets all cells on the board to their appropriate type depending on their designation by set_border
         }
-        cout <<endl;
     }
-    cout << "\n Lines built: " << linesbuilt << endl; //reads out lines built
-    cout << "\n Score: " << score << endl; // reads out score
-    cout << piececount << " Pieces"; // reads out # of pieces
+    //cout << "\n Lines built: " << linesbuilt << endl; //reads out lines built
+    //cout << "\n Score: " << score << endl; // reads out score
+    //cout << piececount << " Pieces"; // reads out # of pieces
     
-   
-
 }
 
-void Game::controls() //Game controls, uses GetAsyncKeyState
+Game::Input Game::readInput(){
+    #ifdef _WIN32
+        if (GetAsyncKeyState(VK_UP) & 0x8000)
+    {
+        return Input::up;
+    }
+    else if (GetAsyncKeyState(VK_DOWN) & 0x8000)
+    {
+        return Input::down;
+    }
+    else if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
+    {
+        return Input::right;
+    }
+    else if (GetAsyncKeyState(VK_LEFT) & 0x8000)
+    {
+        return Input::left;
+    }
+    #else
+    int ch = getch();
+
+    switch (ch){
+        case KEY_UP: return Input::up;
+        case KEY_DOWN: return Input::down;
+        case KEY_RIGHT: return Input::left;
+        case KEY_LEFT: return Input::right;
+        default: return Input::none;
+    }
+    #endif
+}
+
+void Game::controls()
 {
-    if (GetAsyncKeyState(VK_UP)) // up arrow rotates piece
-    {
-        checked_rotate();
-    }
 
-    else if (GetAsyncKeyState(VK_DOWN)) // down arrow forces piece down
-    {
-        speed = 10;
-    }
+    Input key = readInput();
 
-    else if (GetAsyncKeyState(VK_RIGHT)) // left and right arrows move piece left and right
-    {
-        checked_move(move_direction::right);
-       
-        
-    }
-    else if (GetAsyncKeyState(VK_LEFT))
-    {
-        checked_move(move_direction::left);
-       
- 
+    switch(key){
+        case Input::up:
+            checked_rotate();
+            break;
+
+        case Input::down:
+            speed =10;
+            break;
+
+        case Input::right:
+            #ifndef _WIN32
+            checked_move(move_direction::left);
+            #else
+            checked_move(move_direction::right);
+            #endif
+            break;
+
+        case Input::left:
+            #ifndef _WIN32
+            checked_move(move_direction::right);
+            #else
+            checked_move(move_direction::left);
+            #endif
+            break;
+
+        case Input::none:
+            break;
     }
 }
 
 void Game::ClearScreen() 
 {
     // Function which cleans the screen without flickering
-    COORD cursorPosition;   cursorPosition.X = 0;   cursorPosition.Y = 0;   SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
+    #ifdef _WIN32
+        COORD cursorPosition;
+        cursorPosition.X = 0;
+        cursorPosition.Y = 0;
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
+    #else
+        std::cout << "\033[H";
+    #endif
 }

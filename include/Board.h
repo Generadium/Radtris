@@ -5,9 +5,7 @@
 #include <vector>
 #include <algorithm>
 
-
 using namespace std;
-
 
 class Board 
 {
@@ -17,7 +15,7 @@ private:
     vector<Cell> all_points; // vector includes all points on the board
     vector<Cell> built_points; // vector includes all points occupied by blocks
 public:
-    Board(int width = 10, int height = 20); // constructor sets board to height and width
+    Board(int width = 20, int height = 20); // constructor sets board to height and width
 
     int get_width() 
     { 

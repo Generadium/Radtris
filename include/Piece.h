@@ -1,13 +1,20 @@
 #ifndef PIECE_H
 #define PIECE_H
 
-
-using namespace std;
 #include "Cell.h" //header files and function libraries
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
-#include <Windows.h>
+
+#ifdef _WIN32
+    #include <windows.h>
+    #include <conio.h>
+#else
+    #include <unistd.h>
+    #include <ncurses.h>
+#endif
+
+using namespace std;
 
 enum piece_type  // enum variables for the piece shapes
 {
