@@ -39,17 +39,11 @@ void Board::set_border()
         if (y == height - 1)
         {
             if (x == 0 || x == width - 1)
-            {
                 point.set_type(' ');
-            }
             else if (x % 2 == 0)
-            {
                 point.set_type('/');
-            }
             else
-            {
                 point.set_type('\\');
-            }
         }
         else if (y == height - 2)
         {
@@ -61,24 +55,15 @@ void Board::set_border()
                 point.set_type('=');
         }
         else if (x == 0)
-        {
             point.set_type('<');
-        }
         else if (x == width - 1)
-        {
             point.set_type('>');
-        }
         else if (x == 1 || x == width - 2)
-        {
             point.set_type('!');
-        }
         else if (x % 2 != 0)
-        {
             point.set_type('.');
-        }
-        else {
+        else 
             point.set_type(' ');
-        }
     }
 }
 
@@ -88,33 +73,20 @@ int Board::remove_row() //removes rows whenever they are filled
     int i{ 1 }; // initializes i to 1
     while (i < height)  // while i is greater than height
     {
-
-
         int built_points_count = count_if(built_points.begin(), built_points.end(), [i](const Cell& point) 
-            {
-            return (point.get_y() == i);
-            });
+            {return (point.get_y() == i);});
 
-        if (built_points_count == (width - 4))
+        if (built_points_count == (width - 4) / 2)
         {
             removed_rows++;
-
             // erase-remove idiom
             auto it = remove_if(built_points.begin(), built_points.end(), [i](Cell point) 
-                {
-                 
-                return (point.get_y() == i);
-                });
+                {return (point.get_y() == i);});
             built_points.erase(it, built_points.end());
 
             for_each(built_points.begin(), built_points.end(), [i](Cell& point) //moves all points above the removed line downward
-                {
-                    
-                    
-                    if (point.get_y() > i)
-                    point.move(0, -1);
-                });
-
+                {if (point.get_y() > i)
+                    point.move(0, -1);});
         }
         else
             i++;

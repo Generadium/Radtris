@@ -29,8 +29,8 @@ enum piece_type  // enum variables for the piece shapes
  
 enum move_direction // enum variables for the movement of the blocks
 {
-    right = 1,
-    left = -1,
+    right = 2,
+    left = -2,
 };
 
 class Piece {
@@ -38,7 +38,6 @@ private:
     enum piece_type type; //type variable for the pieces shapes
     vector<Cell> body; // body variable for the piece shapes
     Cell pos; // variable for the position of the blocks
-
 
 public:
     Piece() = default; //default constructor

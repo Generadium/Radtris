@@ -64,19 +64,20 @@ void Game::running() //runs in the background while the game is running
     #endif
     while (!game_over()) //while it is not game over 
     {
-        //curr_piece = Piece(Cell((board.get_width() - 1) / 2, board.get_height() - 15, 'ß')); // spawns piece at the starting point
+        curr_piece = Piece(Cell(board.get_width() / 2, board.get_height() -18, 'O')); // spawns piece at the starting point
         while (!blocksland())
         {
+
             // speedCounter++; // speedCounter increases by 1 with each refresh of the game
             // speed = 90;
             // if (speedCounter % 2)
             // {
-            //     curr_piece.fall_down(); // pieces automatically fall down
+            //     //curr_piece.fall_down(); // pieces automatically fall down
                 
             // }
 
-            // ClearScreen();//prevents screen flickering by clearing the screen each time the board is refreshed
-            // linesbuilt += board.remove_row(); // adds points when a row is removed
+            //ClearScreen();//prevents screen flickering by clearing the screen each time the board is refreshed
+            //linesbuilt += board.remove_row(); // adds points when a row is removed
 
             // for (int i = 0; i <= linesbuilt; i++) //nested for loops for the scoring system, adds 25 for each piece placed and 100 for each line filled
             // {
@@ -167,7 +168,7 @@ bool Game::checked_move(enum move_direction dir)
 {
     for (const auto& next_piece_pnt : curr_piece.movedbody(dir))
     { 
-        if (next_piece_pnt.get_x() == 1 || next_piece_pnt.get_x() == (board.get_width() - 2)) //prohibits pieces from going through the borders
+        if (next_piece_pnt.get_x() <= 1 || next_piece_pnt.get_x() >= (board.get_width() - 3)) //prohibits pieces from going through the borders
             return false;
 
         for (const auto& built_pnt : board.get_built_points()) // does not allow built points to move
@@ -183,7 +184,7 @@ bool Game::checked_rotate()
 {
     for (const auto& next_piece_pnt : curr_piece.rotatedbody()) // pointer to the rotated body of a the current piece
     {
-        if (next_piece_pnt.get_x() == 1 || next_piece_pnt.get_x() == (board.get_width() - 2)) //pieces on the border cannot rotate
+        if (next_piece_pnt.get_x() <= 1 || next_piece_pnt.get_x() >= (board.get_width() - 2)) //pieces on the border cannot rotate
             return false;
 
         for (const auto& built_pnt : board.get_built_points()) // does not allow built points to rotate
@@ -205,13 +206,18 @@ void Game::refreshall()
 
 void Game::draw() //creates the board
 {
-   
     for (int i = (board.get_height() - 1); i >= 0; i--) // double nested for loop
     { 
         for (int j = 0; j < board.get_width(); j++) {
             auto t = find(final_points.begin(), final_points.end(), Cell(j, i)); // uses find function to find all final points within range of for loop
             //THIS NEEDS TO BE MODIFIED FOR LINUX
-            DrawAt(j,i, t->get_type());
+            if(t->get_type() == 'O'){
+                DrawAt(j, i, "[]");
+                j++;
+            } else {
+                DrawAt(j, i, t->get_type());
+            }
+            
             //cout << t->get_type(); // sets all cells on the board to their appropriate type depending on their designation by set_border
         }
     }

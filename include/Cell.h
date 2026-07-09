@@ -9,6 +9,7 @@ private:
     int x;
     int y;
     char type;
+
 public:
     Cell(int x = 0, int y = 0, char type = ' '); //default constructor
 
@@ -33,6 +34,7 @@ public:
     Cell shift_copy(int x_shift, int y_shift) const; //shifts copies of the char variable to different x and y position
     void move(int x_move, int y_move); //contains the move variables for the x and y variables
     void set_coordinate(int x_new, int y_new); // sets coordinates for the x and y variables
+    const char* render_cell(char type);
 
     bool operator==(const Cell& rhs) const; // sets x and y to the right hand side of the equals sign in the mutators
 };

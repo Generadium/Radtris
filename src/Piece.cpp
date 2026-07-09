@@ -6,21 +6,42 @@ Piece::Piece(Cell pos) //defines all the pieces on an x,y grid
 {
     srand(time(0)); //uses time to choose a random value
     type = static_cast<piece_type>(rand() % 7); //chooses a random piece out of 7
-
+    //pos.shift_copy()
     if (type == t_piece) // the different pieces are given their shapes using the enum pos variable
-        body = { pos, pos.shift_copy(1, 0), pos.shift_copy(-1, 0), pos.shift_copy(0, 1) };
+        //
+        //         O
+        //       O X O       
+        body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(2, 0), pos.shift_copy(0, 1) };
     else if (type == i_piece)
-        body = { pos, pos.shift_copy(0, -1), pos.shift_copy(0, 1), pos.shift_copy(0, 2) };
+        //
+        //     O X O O
+        //
+        body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(2, 0), pos.shift_copy(4, 0) };
     else if (type == o_piece)
-        body = { pos, pos.shift_copy(0, 1), pos.shift_copy(1, 0), pos.shift_copy(1, 1) };
+        //
+        //       O O
+        //       X O
+        body = { pos, pos.shift_copy(2, 0), pos.shift_copy(2, 0), pos.shift_copy(2, 1) };
     else if (type == l_piece)
-        body = { pos, pos.shift_copy(0, 1), pos.shift_copy(0, -1), pos.shift_copy(1, -1) };
+        //       O
+        //       O
+        //       X O
+        body = { pos, pos.shift_copy(0, 1), pos.shift_copy(0, 2), pos.shift_copy(2, 0) };
     else if (type == j_piece)
-        body = { pos, pos.shift_copy(-1, 0), pos.shift_copy(0, 1), pos.shift_copy(0, 2) };
+        //       O
+        //       O
+        //     O X
+        body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(0, 1), pos.shift_copy(0, 2) };
     else if (type == s_piece)
-        body = { pos, pos.shift_copy(-1, 0), pos.shift_copy(0, 1), pos.shift_copy(1, 1) };
+        //
+        //       O O
+        //     O X
+        body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(0, 1), pos.shift_copy(2, 1) };
     else if (type == z_piece)
-        body = { pos, pos.shift_copy(1, 0), pos.shift_copy(0, 1), pos.shift_copy(-1, 1) };
+        //
+        //    O O
+        //      X O
+        body = { pos, pos.shift_copy(-2, 1), pos.shift_copy(0, 1), pos.shift_copy(2, 0) };
 }
 
 void Piece::fall_down() // automatically causes pieces to fall
@@ -62,9 +83,9 @@ void Piece::rotate() //rotates the pieces
 {
     for (auto& point : body) 
     {
-        int point_x = point.get_x() - pos.get_x();
+        int point_x = (point.get_x() - pos.get_x()) / 2;
         int point_y = point.get_y() - pos.get_y();
-        point.set_coordinate((-1 * point_y) + pos.get_x(), point_x + pos.get_y());
+        point.set_coordinate((-point_y * 2) + pos.get_x(), point_x + pos.get_y());
     }
 }
 
@@ -73,9 +94,10 @@ vector<Cell> Piece::rotatedbody() //creates the rotated body of the piece
     vector<Cell> next_body;
     for (const auto& point : body)
     {
-        int point_x = point.get_x() - pos.get_x();
+        int point_x = (point.get_x() - pos.get_x())/2;
         int point_y = point.get_y() - pos.get_y();
-        next_body.push_back(Cell((-1 * point_y) + pos.get_x(), point_x + pos.get_y()));
+        next_body.push_back(Cell((-point_y * 2) + pos.get_x(), point_x + pos.get_y(),
+        point.get_type()));
     }
     return next_body;
 }

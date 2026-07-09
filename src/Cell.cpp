@@ -25,3 +25,12 @@ void Cell::set_coordinate(int x_new, int y_new) //accessor for the coordinates
     x = x_new;
     y = y_new;
 }
+
+const char* Cell::render_cell(char type){
+    if (type == 'O') return "[]";
+    
+    static char buffer[0];
+    buffer[0] = type;
+
+    return buffer;
+}
