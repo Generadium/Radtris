@@ -1,7 +1,5 @@
 #include "Game.h"
 
-using namespace std;
-
 Game::Game() // Game constructor
     : run {true}
 {
@@ -64,29 +62,30 @@ void Game::running() //runs in the background while the game is running
     #endif
     while (!game_over()) //while it is not game over 
     {
-        curr_piece = Piece(Cell(board.get_width() / 2, board.get_height() -18, 'O')); // spawns piece at the starting point
+        curr_piece = Piece(Cell(board.get_width() / 2, board.get_height() - 24, 'O')); // spawns piece at the starting point
         while (!blocksland())
         {
 
-            // speedCounter++; // speedCounter increases by 1 with each refresh of the game
-            // speed = 90;
-            // if (speedCounter % 2)
-            // {
-            //     //curr_piece.fall_down(); // pieces automatically fall down
+            speedCounter++; // speedCounter increases by 1 with each refresh of the game
+            speed = 90;
+            if (speedCounter % 2)
+            {
+                curr_piece.fall_down(); // pieces automatically fall down
                 
-            // }
+            }
 
-            //ClearScreen();//prevents screen flickering by clearing the screen each time the board is refreshed
-            //linesbuilt += board.remove_row(); // adds points when a row is removed
+            ClearScreen();//prevents screen flickering by clearing the screen each time the board is refreshed
+            linesbuilt += board.remove_row(); // adds points when a row is removed
 
-            // for (int i = 0; i <= linesbuilt; i++) //nested for loops for the scoring system, adds 25 for each piece placed and 100 for each line filled
-            // {
-            //     for (int j = 0; j <= piececount; j++)
-            //     {
-            //         score = (i * 100) + (j * 25);
+            for (int i = 0; i <= linesbuilt; i++) //nested for loops for the scoring system, adds 25 for each piece placed and 100 for each line filled
+            {
+                for (int j = 0; j <= piececount; j++)
+                {
+                    score = (i * 100) + (j * 25);
                     
-            //     }
-            // }
+                }
+            }
+
             board.refresh(); //refreshes the board
             refreshall(); //refreshes all points on the board
             draw(); //draws the board
@@ -110,7 +109,7 @@ void Game::running() //runs in the background while the game is running
 bool Game::game_over() //declares the game over
 {
     for (const auto& pnt : board.get_built_points()) // points to all built tiles in the game
-        if (pnt.get_y() >= board.get_height() - 1) //if there are built points in y >= height - 1, the game is over
+        if (pnt.get_y() >= board.get_height()) //if there are built points in y >= height - 1, the game is over
         {
             return true;
         }
@@ -125,17 +124,20 @@ bool Game::regame() //game over screen, asks the player to play again
     bool invalid{ false };
     do {
         cin >> c;
-        if (c == 'y') // if 'y' is entered, game restarts
+        if (c == 'y' || c == 'Y') // if 'y' is entered, game restarts
             return true;
-        else if (c == 'n') // if 'n' is entered, program terminates
+        else if (c == 'n' || c == 'N') // if 'n' is entered, program terminates
             return false;
         else {
-            cout << "Invalid entry!\n"; //other characters are invalid
+            //cout << "Invalid entry!\n"; //other characters are invalid
             invalid = true;
         }
     } while (invalid);
+
+    return false;
 }
 
+//Needs to be reworked
 bool Game::blocksland() // sends the bodies of pieced that land to built points when they land 
 {
 
@@ -143,7 +145,7 @@ bool Game::blocksland() // sends the bodies of pieced that land to built points 
     {
         //Sets the piece to hit the ground
         //For Windows, y == 1
-        if (next_piece_pnt.get_y() == 18)  //if piece hits y = 1
+        if (next_piece_pnt.get_y() == 20)  //if piece hits y = 1
         {
             board.insert_to_built_points(curr_piece.get_body());//sends current piece to built points (tiles that have been built)
             piececount += 1; // adds to piece count
@@ -210,7 +212,6 @@ void Game::draw() //creates the board
     { 
         for (int j = 0; j < board.get_width(); j++) {
             auto t = find(final_points.begin(), final_points.end(), Cell(j, i)); // uses find function to find all final points within range of for loop
-            //THIS NEEDS TO BE MODIFIED FOR LINUX
             if(t->get_type() == 'O'){
                 DrawAt(j, i, "[]");
                 j++;
@@ -218,9 +219,18 @@ void Game::draw() //creates the board
                 DrawAt(j, i, t->get_type());
             }
             
+            score_string = "Score: " + to_string(score);
+            line_string = "Lines built: " + to_string(linesbuilt);
+            remove_row_string = "Rows removed: " + to_string(linesbuilt);
+            
+            DrawAt((board.get_width() + 2), 1, score_string.c_str());
+            DrawAt((board.get_width() + 2), 2, line_string.c_str());
+            DrawAt((board.get_width() + 2), 3, remove_row_string.c_str());
+    }
+            //MODIFY FOR WINDOWS
             //cout << t->get_type(); // sets all cells on the board to their appropriate type depending on their designation by set_border
         }
-    }
+    
     //cout << "\n Lines built: " << linesbuilt << endl; //reads out lines built
     //cout << "\n Score: " << score << endl; // reads out score
     //cout << piececount << " Pieces"; // reads out # of pieces

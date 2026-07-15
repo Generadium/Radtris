@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <thread>
 #include <chrono>
+#include <format>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -29,14 +30,18 @@ private:
     Board board; //board variable
     Piece curr_piece; // current piece variable
     vector<Cell> final_points;
-    int linesbuilt; // variable for number of lines built
-    int score; // variable for the score
+    int linesbuilt = 0; // variable for number of lines built
+    int score = 0; // variable for the score
     int speed; // variable for the speed
-    int speedCounter; // variable for the 
+    int speedCounter = 0; // variable for the 
     int speedCounterincrem = 2; // intital value of the speed incrementor
-    int piececount; // number of pieces that have fallen
+    int piececount = 0; // number of pieces that have fallen
     int level = 1; // intial value of the level
     bool run; // boolean run variable
+
+    string score_string; //string output for the score
+    string line_string;
+    string remove_row_string;
     enum class Input{
         up,
         down,

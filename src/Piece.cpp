@@ -21,7 +21,7 @@ Piece::Piece(Cell pos) //defines all the pieces on an x,y grid
         //
         //       O O
         //       X O
-        body = { pos, pos.shift_copy(2, 0), pos.shift_copy(2, 0), pos.shift_copy(2, 1) };
+        body = { pos, pos.shift_copy(2, 0), pos.shift_copy(0, 1), pos.shift_copy(2, 1) };
     else if (type == l_piece)
         //       O
         //       O
@@ -59,7 +59,7 @@ vector<Cell> Piece::fallenbody() // allows the piece's body to shift downward by
 {
     vector<Cell> next_body;
     for (const auto& point : body) // creates a pointer that does not modify body
-        next_body.push_back(point.shift_copy(0, -1)); // uses the push back command and a pointer to point to the -1 y position
+        next_body.push_back(point.shift_copy(0, +1)); // uses the push back command and a pointer to point to the -1 y position
 
     return next_body;
 }

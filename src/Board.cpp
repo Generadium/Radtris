@@ -24,10 +24,7 @@ void Board::refresh() // sets all recently fallen blocks or tiles to new built t
 }
 
 void Board::insert_to_built_points(vector<Cell> insert_points) 
-{
-    built_points.insert(built_points.end(), insert_points.begin(), insert_points.end());
-    
-}
+{built_points.insert(built_points.end(), insert_points.begin(), insert_points.end());}
 
 void Board::set_border()
 {
@@ -69,24 +66,24 @@ void Board::set_border()
 
 int Board::remove_row() //removes rows whenever they are filled
 {
-    int removed_rows{ 0 }; // initialized to zero
-    int i{ 1 }; // initializes i to 1
+    int removed_rows{0}; // initialized to zero
+    int i{1}; // initializes i to 1
     while (i < height)  // while i is greater than height
     {
         int built_points_count = count_if(built_points.begin(), built_points.end(), [i](const Cell& point) 
             {return (point.get_y() == i);});
 
-        if (built_points_count == (width - 4) / 2)
+        if (built_points_count == (width/2) - 2)
         {
             removed_rows++;
-            // erase-remove idiom
+            
             auto it = remove_if(built_points.begin(), built_points.end(), [i](Cell point) 
                 {return (point.get_y() == i);});
             built_points.erase(it, built_points.end());
 
             for_each(built_points.begin(), built_points.end(), [i](Cell& point) //moves all points above the removed line downward
-                {if (point.get_y() > i)
-                    point.move(0, -1);});
+                {if (point.get_y() < i)
+                    point.move(0, +1);});
         }
         else
             i++;

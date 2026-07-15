@@ -76,71 +76,71 @@ CMakeFiles/tetris.dir/src/Main.cpp.o: CMakeFiles/tetris.dir/flags.make
 CMakeFiles/tetris.dir/src/Main.cpp.o: /home/generadium/Projects/TetrisGame/src/Main.cpp
 CMakeFiles/tetris.dir/src/Main.cpp.o: CMakeFiles/tetris.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/generadium/Projects/TetrisGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/tetris.dir/src/Main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Main.cpp.o -MF CMakeFiles/tetris.dir/src/Main.cpp.o.d -o CMakeFiles/tetris.dir/src/Main.cpp.o -c /home/generadium/Projects/TetrisGame/src/Main.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Main.cpp.o -MF CMakeFiles/tetris.dir/src/Main.cpp.o.d -o CMakeFiles/tetris.dir/src/Main.cpp.o -c /home/generadium/Projects/TetrisGame/src/Main.cpp
 
 CMakeFiles/tetris.dir/src/Main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tetris.dir/src/Main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Main.cpp > CMakeFiles/tetris.dir/src/Main.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Main.cpp > CMakeFiles/tetris.dir/src/Main.cpp.i
 
 CMakeFiles/tetris.dir/src/Main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tetris.dir/src/Main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Main.cpp -o CMakeFiles/tetris.dir/src/Main.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Main.cpp -o CMakeFiles/tetris.dir/src/Main.cpp.s
 
 CMakeFiles/tetris.dir/src/Cell.cpp.o: CMakeFiles/tetris.dir/flags.make
 CMakeFiles/tetris.dir/src/Cell.cpp.o: /home/generadium/Projects/TetrisGame/src/Cell.cpp
 CMakeFiles/tetris.dir/src/Cell.cpp.o: CMakeFiles/tetris.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/generadium/Projects/TetrisGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/tetris.dir/src/Cell.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Cell.cpp.o -MF CMakeFiles/tetris.dir/src/Cell.cpp.o.d -o CMakeFiles/tetris.dir/src/Cell.cpp.o -c /home/generadium/Projects/TetrisGame/src/Cell.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Cell.cpp.o -MF CMakeFiles/tetris.dir/src/Cell.cpp.o.d -o CMakeFiles/tetris.dir/src/Cell.cpp.o -c /home/generadium/Projects/TetrisGame/src/Cell.cpp
 
 CMakeFiles/tetris.dir/src/Cell.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tetris.dir/src/Cell.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Cell.cpp > CMakeFiles/tetris.dir/src/Cell.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Cell.cpp > CMakeFiles/tetris.dir/src/Cell.cpp.i
 
 CMakeFiles/tetris.dir/src/Cell.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tetris.dir/src/Cell.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Cell.cpp -o CMakeFiles/tetris.dir/src/Cell.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Cell.cpp -o CMakeFiles/tetris.dir/src/Cell.cpp.s
 
 CMakeFiles/tetris.dir/src/Game.cpp.o: CMakeFiles/tetris.dir/flags.make
 CMakeFiles/tetris.dir/src/Game.cpp.o: /home/generadium/Projects/TetrisGame/src/Game.cpp
 CMakeFiles/tetris.dir/src/Game.cpp.o: CMakeFiles/tetris.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/generadium/Projects/TetrisGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/tetris.dir/src/Game.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Game.cpp.o -MF CMakeFiles/tetris.dir/src/Game.cpp.o.d -o CMakeFiles/tetris.dir/src/Game.cpp.o -c /home/generadium/Projects/TetrisGame/src/Game.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Game.cpp.o -MF CMakeFiles/tetris.dir/src/Game.cpp.o.d -o CMakeFiles/tetris.dir/src/Game.cpp.o -c /home/generadium/Projects/TetrisGame/src/Game.cpp
 
 CMakeFiles/tetris.dir/src/Game.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tetris.dir/src/Game.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Game.cpp > CMakeFiles/tetris.dir/src/Game.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Game.cpp > CMakeFiles/tetris.dir/src/Game.cpp.i
 
 CMakeFiles/tetris.dir/src/Game.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tetris.dir/src/Game.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Game.cpp -o CMakeFiles/tetris.dir/src/Game.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Game.cpp -o CMakeFiles/tetris.dir/src/Game.cpp.s
 
 CMakeFiles/tetris.dir/src/Piece.cpp.o: CMakeFiles/tetris.dir/flags.make
 CMakeFiles/tetris.dir/src/Piece.cpp.o: /home/generadium/Projects/TetrisGame/src/Piece.cpp
 CMakeFiles/tetris.dir/src/Piece.cpp.o: CMakeFiles/tetris.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/generadium/Projects/TetrisGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/tetris.dir/src/Piece.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Piece.cpp.o -MF CMakeFiles/tetris.dir/src/Piece.cpp.o.d -o CMakeFiles/tetris.dir/src/Piece.cpp.o -c /home/generadium/Projects/TetrisGame/src/Piece.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Piece.cpp.o -MF CMakeFiles/tetris.dir/src/Piece.cpp.o.d -o CMakeFiles/tetris.dir/src/Piece.cpp.o -c /home/generadium/Projects/TetrisGame/src/Piece.cpp
 
 CMakeFiles/tetris.dir/src/Piece.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tetris.dir/src/Piece.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Piece.cpp > CMakeFiles/tetris.dir/src/Piece.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Piece.cpp > CMakeFiles/tetris.dir/src/Piece.cpp.i
 
 CMakeFiles/tetris.dir/src/Piece.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tetris.dir/src/Piece.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Piece.cpp -o CMakeFiles/tetris.dir/src/Piece.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Piece.cpp -o CMakeFiles/tetris.dir/src/Piece.cpp.s
 
 CMakeFiles/tetris.dir/src/Board.cpp.o: CMakeFiles/tetris.dir/flags.make
 CMakeFiles/tetris.dir/src/Board.cpp.o: /home/generadium/Projects/TetrisGame/src/Board.cpp
 CMakeFiles/tetris.dir/src/Board.cpp.o: CMakeFiles/tetris.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/generadium/Projects/TetrisGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/tetris.dir/src/Board.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Board.cpp.o -MF CMakeFiles/tetris.dir/src/Board.cpp.o.d -o CMakeFiles/tetris.dir/src/Board.cpp.o -c /home/generadium/Projects/TetrisGame/src/Board.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/tetris.dir/src/Board.cpp.o -MF CMakeFiles/tetris.dir/src/Board.cpp.o.d -o CMakeFiles/tetris.dir/src/Board.cpp.o -c /home/generadium/Projects/TetrisGame/src/Board.cpp
 
 CMakeFiles/tetris.dir/src/Board.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/tetris.dir/src/Board.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Board.cpp > CMakeFiles/tetris.dir/src/Board.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/generadium/Projects/TetrisGame/src/Board.cpp > CMakeFiles/tetris.dir/src/Board.cpp.i
 
 CMakeFiles/tetris.dir/src/Board.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/tetris.dir/src/Board.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Board.cpp -o CMakeFiles/tetris.dir/src/Board.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/generadium/Projects/TetrisGame/src/Board.cpp -o CMakeFiles/tetris.dir/src/Board.cpp.s
 
 # Object files for target tetris
 tetris_OBJECTS = \
