@@ -4,6 +4,8 @@
 #include "Piece.h"
 #include <vector>
 #include <algorithm>
+#include <thread>
+#include <chrono>
 #include <ncurses.h>
 
 using namespace std;

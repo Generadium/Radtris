@@ -29,8 +29,8 @@ enum piece_type  // enum variables for the piece shapes
  
 enum move_direction // enum variables for the movement of the blocks
 {
-    right = 2,
-    left = -2,
+    right = -2,
+    left = 2,
 };
 
 class Piece {

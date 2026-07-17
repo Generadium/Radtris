@@ -74,16 +74,17 @@ int Board::remove_row() //removes rows whenever they are filled
             {return (point.get_y() == i);});
 
         if (built_points_count == (width/2) - 2)
-        {
-            removed_rows++;
-            
+        {   
             auto it = remove_if(built_points.begin(), built_points.end(), [i](Cell point) 
                 {return (point.get_y() == i);});
             built_points.erase(it, built_points.end());
 
+            //std::this_thread::sleep_for(std::chrono::milliseconds(60)); //controls speed
             for_each(built_points.begin(), built_points.end(), [i](Cell& point) //moves all points above the removed line downward
                 {if (point.get_y() < i)
                     point.move(0, +1);});
+
+            removed_rows++;
         }
         else
             i++;

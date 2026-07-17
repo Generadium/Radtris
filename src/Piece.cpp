@@ -6,7 +6,7 @@ Piece::Piece(Cell pos) //defines all the pieces on an x,y grid
 {
     srand(time(0)); //uses time to choose a random value
     type = static_cast<piece_type>(rand() % 7); //chooses a random piece out of 7
-    //pos.shift_copy()
+
     if (type == t_piece) // the different pieces are given their shapes using the enum pos variable
         //
         //         O
