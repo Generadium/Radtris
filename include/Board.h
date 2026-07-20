@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <thread>
 #include <chrono>
+#include <functional>
 #include <ncurses.h>
 
 using namespace std;
@@ -21,26 +22,16 @@ public:
     Board(int width = 24, int height = 22); // constructor sets board to height and width
 
     int get_width() 
-    { 
-        return width; 
-    } // mutator for width
+    { return width; } // mutator for width
     int get_height() 
-    { 
-        return height; 
-    } // mutator for height
+    { return height; } // mutator for height
     
     vector<Cell> get_all_points()
-    { 
-        return all_points; 
-    } // mutator for all points vector
+    { return all_points; } // mutator for all points vector
     vector<Cell> get_built_points() 
-    { 
-        return built_points; 
-    } // mutator for built points variable 
+    { return built_points; } // mutator for built points variable 
     void set_built_points(vector<Cell> built_points) 
-    { 
-        this->built_points = built_points; 
-    } // built points accessor, uses this pointer
+    { this->built_points = built_points; } // built points accessor, uses this pointer
     void set_border(); // accessor for border
     
 

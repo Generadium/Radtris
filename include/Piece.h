@@ -41,7 +41,7 @@ private:
 
 public:
     Piece() = default; //default constructor
-    Piece(Cell pos); // constructor that uses the pos variable
+    Piece(Cell pos, piece_type type); // constructor that uses the pos variable
     void fall_down(); //function that causes pieces to automatically fall down
     vector<Cell> fallenbody(); // function that creates the body of the piece after it has fallen
     void move(enum move_direction dir); // function that causes the pieces to move left or right
@@ -56,6 +56,8 @@ public:
     { 
         this->body = body;
     } //points to the address of body
+
+    void build_body(piece_type type);
 
 };
 

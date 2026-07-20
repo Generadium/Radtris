@@ -64,20 +64,30 @@ void Board::set_border()
     }
 }
 
+//edit to configure animations
 int Board::remove_row() //removes rows whenever they are filled
 {
     int removed_rows{0}; // initialized to zero
     int i{1}; // initializes i to 1
+
     while (i < height)  // while i is greater than height
     {
         int built_points_count = count_if(built_points.begin(), built_points.end(), [i](const Cell& point) 
-            {return (point.get_y() == i);});
+            {return (point.get_y() == i);}); // returns amount of built points in row
 
-        if (built_points_count == (width/2) - 2)
+        if (built_points_count == (width/2) - 2) // if built points equals width of the board
         {   
+
             auto it = remove_if(built_points.begin(), built_points.end(), [i](Cell point) 
                 {return (point.get_y() == i);});
-            built_points.erase(it, built_points.end());
+
+            //animation starts here(?)
+            //set whole row to block characters
+            // for(auto &point : built_points){
+            //     point.set_type('█');
+            // }
+            // std::this_thread::sleep_for(std::chrono::milliseconds(60));
+            // built_points.erase(it, built_points.end()); // removes points from the board
 
             //std::this_thread::sleep_for(std::chrono::milliseconds(60)); //controls speed
             for_each(built_points.begin(), built_points.end(), [i](Cell& point) //moves all points above the removed line downward

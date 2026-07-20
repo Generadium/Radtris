@@ -187,4 +187,21 @@ CMakeFiles/tetris.dir/src/Board.cpp.o: \
  /usr/include/c++/15/bits/uniform_int_dist.h \
  /usr/include/c++/15/bits/stl_tempbuf.h \
  /usr/include/c++/15/pstl/glue_algorithm_defs.h \
- /usr/include/c++/15/pstl/execution_defs.h
+ /usr/include/c++/15/pstl/execution_defs.h /usr/include/c++/15/thread \
+ /usr/include/c++/15/bits/std_thread.h \
+ /usr/include/c++/15/bits/unique_ptr.h \
+ /usr/include/c++/15/bits/this_thread_sleep.h \
+ /usr/include/c++/15/bits/chrono.h /usr/include/c++/15/ratio \
+ /usr/include/c++/15/cstdint /usr/include/c++/15/limits \
+ /usr/include/c++/15/ctime /usr/include/c++/15/bits/parse_numbers.h \
+ /usr/include/c++/15/chrono /usr/include/c++/15/functional \
+ /usr/include/c++/15/bits/std_function.h \
+ /usr/include/c++/15/unordered_map \
+ /usr/include/c++/15/bits/unordered_map.h \
+ /usr/include/c++/15/bits/hashtable.h \
+ /usr/include/c++/15/bits/hashtable_policy.h \
+ /usr/include/c++/15/ext/aligned_buffer.h \
+ /usr/include/c++/15/bits/enable_special_members.h \
+ /usr/include/c++/15/bits/node_handle.h \
+ /usr/include/c++/15/bits/erase_if.h /usr/include/c++/15/array \
+ /usr/include/c++/15/compare

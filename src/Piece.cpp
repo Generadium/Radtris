@@ -1,47 +1,40 @@
 #include "Piece.h"
 using namespace std;
 
-Piece::Piece(Cell pos) //defines all the pieces on an x,y grid
-    :pos{pos}
-{
-    srand(time(0)); //uses time to choose a random value
-    type = static_cast<piece_type>(rand() % 7); //chooses a random piece out of 7
+Piece::Piece(Cell pos, piece_type type) //defines all the pieces on an x,y grid
+    :pos{pos}, type{type}
+    {
+        build_body(type);
+    }
+ 
 
-    if (type == t_piece) // the different pieces are given their shapes using the enum pos variable
-        //
-        //         O
-        //       O X O       
-        body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(2, 0), pos.shift_copy(0, 1) };
-    else if (type == i_piece)
-        //
-        //     O X O O
-        //
-        body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(2, 0), pos.shift_copy(4, 0) };
-    else if (type == o_piece)
-        //
-        //       O O
-        //       X O
-        body = { pos, pos.shift_copy(2, 0), pos.shift_copy(0, 1), pos.shift_copy(2, 1) };
-    else if (type == l_piece)
-        //       O
-        //       O
-        //       X O
-        body = { pos, pos.shift_copy(0, 1), pos.shift_copy(0, 2), pos.shift_copy(2, 0) };
-    else if (type == j_piece)
-        //       O
-        //       O
-        //     O X
-        body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(0, 1), pos.shift_copy(0, 2) };
-    else if (type == s_piece)
-        //
-        //       O O
-        //     O X
-        body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(0, 1), pos.shift_copy(2, 1) };
-    else if (type == z_piece)
-        //
-        //    O O
-        //      X O
-        body = { pos, pos.shift_copy(-2, 1), pos.shift_copy(0, 1), pos.shift_copy(2, 0) };
+
+void Piece::build_body(piece_type type)
+{
+    switch (type)
+    {
+        case t_piece:
+            body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(2, 0), pos.shift_copy(0, 1) };
+            break;
+        case i_piece:
+            body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(2, 0), pos.shift_copy(4, 0) };
+            break;
+        case o_piece:
+            body = { pos, pos.shift_copy(2, 0), pos.shift_copy(0, 1), pos.shift_copy(2, 1) };
+            break;
+        case l_piece:
+            body = { pos, pos.shift_copy(0, 1), pos.shift_copy(0, 2), pos.shift_copy(2, 0) };
+            break;
+        case j_piece:
+            body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(0, 1), pos.shift_copy(2, 1) };
+            break;
+        case s_piece:
+            body = { pos, pos.shift_copy(-2, 0), pos.shift_copy(0, 1), pos.shift_copy(2, 1) };
+            break;
+        case z_piece:
+            body = { pos, pos.shift_copy(-2, 1), pos.shift_copy(0, 1), pos.shift_copy(2, 0) };
+            break;
+    }
 }
 
 void Piece::fall_down() // automatically causes pieces to fall
