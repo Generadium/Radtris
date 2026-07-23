@@ -64,41 +64,53 @@ void Board::set_border()
     }
 }
 
-//edit to configure animations
-int Board::remove_row() //removes rows whenever they are filled
+//edit to configure animations/remove_rows
+void Board::remove_row(const std::vector<int>& rows)
 {
-    int removed_rows{0}; // initialized to zero
-    int i{1}; // initializes i to 1
+    built_points.erase(
+        std::remove_if(
+            built_points.begin(),
+            built_points.end(),
+            [&rows](const Cell& point) {
+                return std::find(
+                    rows.begin(),
+                    rows.end(),
+                    point.get_y()
+                ) != rows.end();
+            }
+        ),
+        built_points.end()
+    );
 
-    while (i < height)  // while i is greater than height
-    {
-        int built_points_count = count_if(built_points.begin(), built_points.end(), [i](const Cell& point) 
-            {return (point.get_y() == i);}); // returns amount of built points in row
+    for (auto& point : built_points) {
+        const int clearedBelow = std::count_if(
+            rows.begin(),
+            rows.end(),
+            [&point](int row) {
+                return row > point.get_y();
+            }
+        );
 
-        if (built_points_count == (width/2) - 2) // if built points equals width of the board
-        {   
-
-            auto it = remove_if(built_points.begin(), built_points.end(), [i](Cell point) 
-                {return (point.get_y() == i);});
-
-            //animation starts here(?)
-            //set whole row to block characters
-            // for(auto &point : built_points){
-            //     point.set_type('█');
-            // }
-            // std::this_thread::sleep_for(std::chrono::milliseconds(60));
-            // built_points.erase(it, built_points.end()); // removes points from the board
-
-            //std::this_thread::sleep_for(std::chrono::milliseconds(60)); //controls speed
-            for_each(built_points.begin(), built_points.end(), [i](Cell& point) //moves all points above the removed line downward
-                {if (point.get_y() < i)
-                    point.move(0, +1);});
-
-            removed_rows++;
-        }
-        else
-            i++;
+        point.move(0, clearedBelow);
     }
-    
-    return removed_rows; //returns removed rows
+}
+
+std::vector<int> Board::get_completed_rows() const
+{
+    std::vector<int> rows;
+
+    for (int row = 1; row < height - 2; ++row) {
+        const int count = std::count_if(
+            built_points.begin(),
+            built_points.end(),
+            [row](const Cell& point) {
+                return point.get_y() == row;
+            }
+        );
+
+        if (count == (width / 2) - 2)
+            rows.push_back(row);
+    }
+
+    return rows;
 }

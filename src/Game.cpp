@@ -3,14 +3,38 @@
 Game::Game() // Game constructor
     : run {true}
 {
+    #ifndef _WIN32
+    std::setlocale(LC_ALL, "");
+    InitConsole();
+    #endif
+
+    bool again = false;
     do // do while loop, run the game while regame is still true
     {
-        //system("cls");
-        clear();
-        refresh();
         board = Board(24, 22); // initializes the board dimensions using the board class constructor
-        running(); // main game loop
-    } while (regame());
+        
+        score = 0;
+        lines_built = 0;
+        piece_count = 0;
+        level = 0;
+        paused = false;
+        piece_active = false;
+        lock_active = false;
+        slam_request = false;
+
+        erase();
+        refresh();
+
+        running();
+        again = regame();
+    } while (again);
+
+    #ifndef _WIN32
+    erase();
+    refresh();
+    ShutdownConsole();
+    std::cout << "\033[2J\033[H" << std::flush;
+    #endif
 }
 
 #ifndef _WIN32
@@ -56,14 +80,12 @@ void Game::DrawAt(int x, int y, const char *text){
 
 void Game::running() //runs in the background while the game is running
 {
-    #ifndef _WIN32
-    InitConsole();
-    #endif
+    animate_board_init();
     next = generate_piece_type();
-    while (!game_over()) //while it is not game over 
-    {
 
-        piece = Piece(Cell(board.get_width() / 2, board.get_height() - 24, 'O'), next); // spawns piece at the starting point
+    while (!game_over()) //while it is not game over
+    {
+        piece = Piece(Cell(board.get_width() / 2, board.get_height() - 24, 'O'), next);
 
         next = generate_piece_type();
         piece_active = true;
@@ -90,9 +112,13 @@ void Game::running() //runs in the background while the game is running
 
             if(paused)
             {
+                //Modify to fit to left side of board
                 draw();
-                DrawAt(2,2,"PAUSED");
-                DrawAt(2,3,"Press P to resume");
+                getmaxyx(stdscr, screen_height, screen_width);
+                int board_x = std::max(0, (screen_width - board.get_width()) / 2);
+
+                DrawAt((board_x - 27),2,"PAUSED");
+                DrawAt((board_x - 27),3,"Press p to resume");
                 refresh();
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(20));
@@ -112,40 +138,49 @@ void Game::running() //runs in the background while the game is running
             }
 
             update_lock_delay(result, Clock::now());
-            
-            board.refresh(); //refreshes the board
-            refreshall(); //refreshes all points on the board
-            draw(); //draws the board
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(12)); //controls speed
+            board.refresh();
+            refreshall();
+            draw();
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(12));
         }
 
-        ClearScreen();//prevents screen flickering by clearing the screen each time the board is refreshed
-        linesbuilt += board.remove_row(); // adds points when a row is removed
+        board.refresh();
+        refreshall();
+        draw();
 
-        for (int i = 0; i <= linesbuilt; i++) //nested for loops for the scoring system, adds 25 for each piece placed and 100 for each line filled
+        const auto complete_rows = board.get_completed_rows();
+        if(!complete_rows.empty())
         {
-            for (int j = 0; j <= piececount; j++)
-            {
-                score = (i * 100) + (j * 25);
-                    
-            }
+            animate_line(complete_rows);
+
+            board.remove_row(complete_rows);
+
+            lines_built += static_cast<int>(complete_rows.size());
+            score = score_calc(complete_rows, level);
+
+            board.refresh();
+            refreshall();
+            draw();
         }
     }
-    if (game_over() == true)
-    {
-        score = 0; // resets the game stats when the game is over
-        linesbuilt = 0;
-        piececount = 0;
-        #ifndef _WIN32
-        if(!regame())
-            erase();
-            refresh();
-            ShutdownConsole();
-            std::cout << "\033[2J\033[H" << std::flush;
-        #endif
-    }
-   
+}
+
+int Game::score_calc(std::vector<int> completed_rows, int level)
+{
+    if(completed_rows.size() == 1)
+        score += 40*(level + 1);
+    if(completed_rows.size() == 2)
+        score += 100*(level + 1);
+    if(completed_rows.size() == 3)
+        score += 300*(level + 1);
+    if(completed_rows.size() == 4)
+        score += 1200*(level + 1);
+
+    
+
+    return score;
 }
 
 bool Game::game_over() //declares the game over
@@ -160,8 +195,17 @@ bool Game::game_over() //declares the game over
 
 bool Game::regame() //game over screen, asks the player to play again
 {
-    DrawAt(2, 2, "GAME OVER");
-    DrawAt(2, 3, "Want to play again? (y/n)");
+    #ifndef _WIN32
+    nodelay(stdscr, FALSE);
+    flushinp();
+    #endif
+
+    getmaxyx(stdscr, screen_height, screen_width);
+    int board_x = std::max(0, (screen_width - board.get_width()) / 2);
+    //Modify to fit left side of board
+    DrawAt((board_x - 27), 2, "GAME OVER");
+    DrawAt((board_x - 27), 3, "Want to play again? (y/n)");
+    refresh();
 
     while (true)
     {
@@ -172,7 +216,12 @@ bool Game::regame() //game over screen, asks the player to play again
         #endif
 
         if (c == 'y' || c == 'Y') // if 'y' is entered, game restarts
+        {
+            #ifndef _WIN32
+            nodelay(stdscr, TRUE);
+            #endif
             return true;
+        }
         if (c == 'n' || c == 'N') // if 'n' is entered, program terminates
             return false; 
     }
@@ -248,8 +297,8 @@ bool Game::checked_fall()
 {
     if(!can_fall())
         return false;
-
     piece.fall_down();
+    score++;
     return true;
 }
 
@@ -262,12 +311,10 @@ void Game::refreshall()
                 final_pnt = piece_pnt;
 }
 
-void Game::draw() //creates the board
+void Game::draw(bool present) //creates the board
 {
     erase();
 
-    int screen_height;
-    int screen_width;
     getmaxyx(stdscr, screen_height, screen_width);
 
     int board_x = std::max(0, (screen_width - board.get_width()) / 2);
@@ -289,26 +336,29 @@ void Game::draw() //creates the board
     Piece preview(Cell(board_x + board.get_width() + 6, board_y + 8, 'O'), next);
 
     DrawAt((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str());
-    DrawAt((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(linesbuilt)).c_str());
+    DrawAt((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str());
     DrawAt((board_x + board.get_width() + 2), board_y + 6, "Next piece: ");
-    DrawAt(2,7,"Controls: ");
+    //Modify to fit left side of board
+    DrawAt((board_x - 27),7,"Controls: ");
 
     int control_y = 10;
     for(const Controls& controls : controls){
         std::string line = 
         std::string(controls.key) + " : " + controls.action;
-        DrawAt(2, control_y++, line.c_str());
+        DrawAt((board_x - 27), control_y++, line.c_str());
     }
 
     for (const auto& cell : preview.get_body())
         DrawAt(cell.get_x(), cell.get_y(), "[]");
-    refresh();
+    
+    if(present)
+        refresh();
 }
 
 void Game::lock()
 {
     board.insert_to_built_points(piece.get_body());//sends current piece to built points (tiles that have been built)
-    piececount ++; // adds to piece count
+    piece_count++; // adds to piece count
 
     piece_active = false;
     lock_active = false;
@@ -422,9 +472,7 @@ Game::Result Game::readResult(Input key)
                 ? Result::soft_drop : Result::none;
 
         case Input::space:
-            while (checked_fall())
-            {}
-
+            while (checked_fall()){score++;}
             lock();
             return Result::slam;
 
