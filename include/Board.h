@@ -28,6 +28,7 @@ public:
     vector<Cell> get_all_points(){ return all_points; } // mutator for all points vector
     vector<Cell> get_built_points() { return built_points; } // mutator for built points variable 
     void set_built_points(vector<Cell> built_points) { this->built_points = built_points; } // built points accessor, uses this pointer
+    void clear_built_points();
     void set_border(); // accessor for border
     
     void insert_to_built_points(vector<Cell> insert_points);

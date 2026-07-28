@@ -9,6 +9,7 @@
 #include <format>
 #include <random>
 #include <clocale>
+#include <cwchar>
 
 #ifdef _WIN32
     #include <windows.h>
@@ -24,6 +25,22 @@ using namespace std;
 #include "Piece.h"
 #include "Board.h"
 
+class Leaderboard {
+public:
+    void load();
+    void add_score(const std::string& name, int score);
+    void save() const;
+
+    struct Score {
+    std::string name;
+    int score;
+    };
+
+    std::vector<Score> top_score(std::size_t limit = 10) const;
+
+private:
+    std::vector<Score> entries;
+};
 
 class Game 
 {
@@ -98,10 +115,9 @@ public:
     Game(); //constructor
 
     void running(); // main game loop, this contains the main game sequence
-    void InitConsole();
-    void ShutdownConsole();
     void DrawAt(int x, int y, char ch);
     void DrawAt(int x, int y, const char *text);
+    void DrawAt(int x, int y, const wchar_t* text);
     void draw(bool present = true); // draws the board on the screen
     void refreshall(); //refreshes the final points on the screen
     void lock(); //converts the piece to built cells
@@ -109,6 +125,9 @@ public:
     void refill();
     void animate_line(const std::vector<int>& rows);
     void animate_board_init();
+    void animate_line_wipes(bool game_over, bool regame);
+    void animate_board_erase();
+    void refresh_board();
     void draw_clear_frame(const std::vector<int>& rows, int dissolvedDistance, bool flashOn);
     void DrawWhiteBlockAt(int x, int y);
     void ClearScreen(); // function that prevents the screen from rapidly flickering and jumping

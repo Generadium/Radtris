@@ -5,8 +5,15 @@ Game::Game() // Game constructor
 {
     #ifndef _WIN32
     std::setlocale(LC_ALL, "");
-    InitConsole();
+    initscr();
+    noecho();
+    cbreak();
+    curs_set(0);
+    keypad(stdscr, TRUE);
+    nodelay(stdscr, TRUE);
     #endif
+
+    animate_board_init();
 
     bool again = false;
     do // do while loop, run the game while regame is still true
@@ -27,32 +34,18 @@ Game::Game() // Game constructor
 
         running();
         again = regame();
+        if(again){
+            animate_board_erase();
+            board.clear_built_points();
+        }
     } while (again);
 
     #ifndef _WIN32
-    erase();
     refresh();
-    ShutdownConsole();
+    endwin();
     std::cout << "\033[2J\033[H" << std::flush;
     #endif
 }
-
-#ifndef _WIN32
-void Game::InitConsole()
-{
-    initscr();
-    noecho();
-    cbreak();
-    curs_set(0);
-    keypad(stdscr, TRUE);
-    nodelay(stdscr, TRUE);
-}
-
-void Game::ShutdownConsole()
-{
-    endwin();
-}
-#endif
 
 void Game::DrawAt(int x, int y, char ch){
     #ifdef _WIN32
@@ -78,9 +71,35 @@ void Game::DrawAt(int x, int y, const char *text){
     #endif
 }
 
+void Game::DrawAt(int x, int y, const wchar_t* text)
+{
+#ifndef _WIN32
+    mvaddwstr(y, x, text);
+#else
+    COORD pos{
+        static_cast<SHORT>(x),
+        static_cast<SHORT>(y)
+    };
+
+    SetConsoleCursorPosition(
+        GetStdHandle(STD_OUTPUT_HANDLE),
+        pos
+    );
+
+    DWORD written;
+    WriteConsoleW(
+        GetStdHandle(STD_OUTPUT_HANDLE),
+        text,
+        static_cast<DWORD>(std::wcslen(text)),
+        &written,
+        nullptr
+    );
+#endif
+}
+
 void Game::running() //runs in the background while the game is running
 {
-    animate_board_init();
+    //animate_board_init();
     next = generate_piece_type();
 
     while (!game_over()) //while it is not game over
@@ -112,7 +131,6 @@ void Game::running() //runs in the background while the game is running
 
             if(paused)
             {
-                //Modify to fit to left side of board
                 draw();
                 getmaxyx(stdscr, screen_height, screen_width);
                 int board_x = std::max(0, (screen_width - board.get_width()) / 2);
@@ -139,16 +157,12 @@ void Game::running() //runs in the background while the game is running
 
             update_lock_delay(result, Clock::now());
 
-            board.refresh();
-            refreshall();
-            draw();
+            refresh_board();
 
             std::this_thread::sleep_for(std::chrono::milliseconds(12));
         }
 
-        board.refresh();
-        refreshall();
-        draw();
+        refresh_board();
 
         const auto complete_rows = board.get_completed_rows();
         if(!complete_rows.empty())
@@ -160,9 +174,7 @@ void Game::running() //runs in the background while the game is running
             lines_built += static_cast<int>(complete_rows.size());
             score = score_calc(complete_rows, level);
 
-            board.refresh();
-            refreshall();
-            draw();
+            refresh_board();
         }
     }
 }
@@ -177,8 +189,6 @@ int Game::score_calc(std::vector<int> completed_rows, int level)
         score += 300*(level + 1);
     if(completed_rows.size() == 4)
         score += 1200*(level + 1);
-
-    
 
     return score;
 }
@@ -298,7 +308,6 @@ bool Game::checked_fall()
     if(!can_fall())
         return false;
     piece.fall_down();
-    score++;
     return true;
 }
 
@@ -335,10 +344,10 @@ void Game::draw(bool present) //creates the board
     }
     Piece preview(Cell(board_x + board.get_width() + 6, board_y + 8, 'O'), next);
 
+    DrawAt(board_x + (board.get_width() / 2) - 3, board_y - 1,"TETRIS");
     DrawAt((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str());
     DrawAt((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str());
     DrawAt((board_x + board.get_width() + 2), board_y + 6, "Next piece: ");
-    //Modify to fit left side of board
     DrawAt((board_x - 27),7,"Controls: ");
 
     int control_y = 10;
@@ -353,6 +362,13 @@ void Game::draw(bool present) //creates the board
     
     if(present)
         refresh();
+}
+
+void Game::refresh_board()
+{
+    board.refresh();
+    refreshall();
+    draw();
 }
 
 void Game::lock()
@@ -468,6 +484,8 @@ Game::Result Game::readResult(Input key)
                 ? Result::rotate : Result::none;
 
         case Input::down:
+            // if(piece_active)
+            //     score++;
             return checked_fall()
                 ? Result::soft_drop : Result::none;
 

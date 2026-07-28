@@ -176,8 +176,8 @@ tetris: CMakeFiles/tetris.dir/src/Board.cpp.o
 tetris: CMakeFiles/tetris.dir/src/Animations.cpp.o
 tetris: CMakeFiles/tetris.dir/build.make
 tetris: CMakeFiles/tetris.dir/compiler_depend.ts
-tetris: /usr/lib/x86_64-linux-gnu/libcurses.so
-tetris: /usr/lib/x86_64-linux-gnu/libform.so
+tetris: /usr/lib/x86_64-linux-gnu/libncursesw.so
+tetris: /usr/lib/x86_64-linux-gnu/libformw.so
 tetris: CMakeFiles/tetris.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/generadium/Projects/TetrisGame/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable tetris"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/tetris.dir/link.txt --verbose=$(VERBOSE)

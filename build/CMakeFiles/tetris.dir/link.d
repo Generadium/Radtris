@@ -7,12 +7,13 @@ tetris: \
   CMakeFiles/tetris.dir/src/Game.cpp.o \
   CMakeFiles/tetris.dir/src/Piece.cpp.o \
   CMakeFiles/tetris.dir/src/Board.cpp.o \
-  /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libcurses.so \
-  /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libcurses.so \
-  /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libcurses.so \
-  /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncurses.so.6 \
+  CMakeFiles/tetris.dir/src/Animations.cpp.o \
+  /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncursesw.so \
+  /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncursesw.so \
+  /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncursesw.so \
+  /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncursesw.so.6 \
   /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libtinfo.so \
-  /usr/lib/x86_64-linux-gnu/libform.so \
+  /usr/lib/x86_64-linux-gnu/libformw.so \
   /usr/lib/gcc/x86_64-linux-gnu/15/libstdc++.so \
   /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libm.so \
   /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libm.so \
@@ -58,17 +59,19 @@ CMakeFiles/tetris.dir/src/Piece.cpp.o:
 
 CMakeFiles/tetris.dir/src/Board.cpp.o:
 
-/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libcurses.so:
+CMakeFiles/tetris.dir/src/Animations.cpp.o:
 
-/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libcurses.so:
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncursesw.so:
 
-/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libcurses.so:
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncursesw.so:
 
-/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncurses.so.6:
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncursesw.so:
+
+/usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libncursesw.so.6:
 
 /usr/lib/gcc/x86_64-linux-gnu/15/../../../x86_64-linux-gnu/libtinfo.so:
 
-/usr/lib/x86_64-linux-gnu/libform.so:
+/usr/lib/x86_64-linux-gnu/libformw.so:
 
 /usr/lib/gcc/x86_64-linux-gnu/15/libstdc++.so:
 

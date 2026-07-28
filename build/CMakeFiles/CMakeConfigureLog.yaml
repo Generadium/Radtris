@@ -2613,3 +2613,748 @@ events:
       CMAKE_SYSTEM_LIBRARY_PATH:
         - "/usr/lib/X11"
 ...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake-4.2/Modules/FindCurses.cmake:137 (find_library)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "CURSES_CURSES_LIBRARY"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "curses"
+    candidate_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+      - "/home/generadium/.local/bin/"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/"
+      - "/usr/local/lib/x86_64-linux-gnu/"
+      - "/usr/local/lib/"
+      - "/usr/local/"
+      - "/usr/lib/x86_64-linux-gnu/"
+      - "/usr/lib/"
+      - "/usr/"
+      - "/lib/x86_64-linux-gnu/"
+      - "/lib/"
+      - "/usr/X11R6/lib/x86_64-linux-gnu/"
+      - "/usr/X11R6/lib/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/lib/x86_64-linux-gnu/"
+      - "/usr/pkg/lib/"
+      - "/usr/pkg/"
+      - "/opt/lib/x86_64-linux-gnu/"
+      - "/opt/lib/"
+      - "/opt/"
+      - "/usr/lib/X11/"
+    searched_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+      - "/home/generadium/.local/bin/"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/"
+      - "/usr/local/lib/x86_64-linux-gnu/"
+      - "/usr/local/lib/"
+      - "/usr/local/"
+    found: "/usr/lib/x86_64-linux-gnu/libcurses.so"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux"
+      ENV{PATH}:
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/ros2_lyrical/ros2-linux/bin"
+        - "/home/generadium/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+        - "/snap/bin"
+        - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/usr"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "/usr/lib/X11"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake-4.2/Modules/FindCurses.cmake:139 (find_library)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "CURSES_NCURSES_LIBRARY"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ncursesw"
+    candidate_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+      - "/home/generadium/.local/bin/"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/"
+      - "/usr/local/lib/x86_64-linux-gnu/"
+      - "/usr/local/lib/"
+      - "/usr/local/"
+      - "/usr/lib/x86_64-linux-gnu/"
+      - "/usr/lib/"
+      - "/usr/"
+      - "/lib/x86_64-linux-gnu/"
+      - "/lib/"
+      - "/usr/X11R6/lib/x86_64-linux-gnu/"
+      - "/usr/X11R6/lib/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/lib/x86_64-linux-gnu/"
+      - "/usr/pkg/lib/"
+      - "/usr/pkg/"
+      - "/opt/lib/x86_64-linux-gnu/"
+      - "/opt/lib/"
+      - "/opt/"
+      - "/usr/lib/X11/"
+    searched_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+      - "/home/generadium/.local/bin/"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/"
+      - "/usr/local/lib/x86_64-linux-gnu/"
+      - "/usr/local/lib/"
+      - "/usr/local/"
+    found: "/usr/lib/x86_64-linux-gnu/libncursesw.so"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux"
+      ENV{PATH}:
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/ros2_lyrical/ros2-linux/bin"
+        - "/home/generadium/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+        - "/snap/bin"
+        - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/usr"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "/usr/lib/X11"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-4.2/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "/usr/share/cmake-4.2/Modules/FindCurses.cmake:177 (check_library_exists)"
+      - "CMakeLists.txt:23 (find_package)"
+    checks:
+      - "Looking for wsyncup in /usr/lib/x86_64-linux-gnu/libcurses.so"
+    directories:
+      source: "/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-KKnTn9"
+      binary: "/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-KKnTn9"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CURSES_CURSES_HAS_WSYNCUP"
+      cached: true
+      stdout: |
+        Change Dir: '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-KKnTn9'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_5909d/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_5909d.dir/build.make CMakeFiles/cmTC_5909d.dir/build
+        gmake[1]: Entering directory '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-KKnTn9'
+        Building C object CMakeFiles/cmTC_5909d.dir/CheckFunctionExists.c.o
+        /usr/bin/gcc   -DCHECK_FUNCTION_EXISTS=wsyncup -o CMakeFiles/cmTC_5909d.dir/CheckFunctionExists.c.o -c /home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-KKnTn9/CheckFunctionExists.c
+        Linking C executable cmTC_5909d
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5909d.dir/link.txt --verbose=1
+        /usr/bin/gcc  -DCHECK_FUNCTION_EXISTS=wsyncup CMakeFiles/cmTC_5909d.dir/CheckFunctionExists.c.o -o cmTC_5909d  -lcurses
+        gmake[1]: Leaving directory '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-KKnTn9'
+        
+      exitCode: 0
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake-4.2/Modules/FindCurses.cmake:214 (find_path)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "path"
+    variable: "CURSES_INCLUDE_PATH"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ncursesw/ncurses.h"
+      - "ncursesw/curses.h"
+      - "ncursesw.h"
+      - "cursesw.h"
+    candidate_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/include/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/include/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/include/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/include/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/include/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/include/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/include/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/include/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+      - "/usr/lib/include/"
+      - "/home/generadium/.local/bin/"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/"
+      - "/usr/local/include/x86_64-linux-gnu/"
+      - "/usr/local/include/"
+      - "/usr/local/"
+      - "/usr/include/x86_64-linux-gnu/"
+      - "/usr/include/"
+      - "/usr/"
+      - "/include/x86_64-linux-gnu/"
+      - "/include/"
+      - "/usr/X11R6/include/x86_64-linux-gnu/"
+      - "/usr/X11R6/include/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/include/x86_64-linux-gnu/"
+      - "/usr/pkg/include/"
+      - "/usr/pkg/"
+      - "/opt/include/x86_64-linux-gnu/"
+      - "/opt/include/"
+      - "/opt/"
+      - "/usr/include/X11/"
+    searched_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/include/x86_64-linux-gnu/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/include/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/include/x86_64-linux-gnu/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/include/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/include/x86_64-linux-gnu/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/include/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/include/x86_64-linux-gnu/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/include/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/ncursesw/ncurses.h"
+      - "/usr/lib/include/ncursesw/ncurses.h"
+      - "/home/generadium/.local/bin/ncursesw/ncurses.h"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/ncursesw/ncurses.h"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/ncursesw/ncurses.h"
+      - "/usr/local/sbin/ncursesw/ncurses.h"
+      - "/usr/local/bin/ncursesw/ncurses.h"
+      - "/usr/sbin/ncursesw/ncurses.h"
+      - "/usr/bin/ncursesw/ncurses.h"
+      - "/sbin/ncursesw/ncurses.h"
+      - "/bin/ncursesw/ncurses.h"
+      - "/usr/games/ncursesw/ncurses.h"
+      - "/usr/local/games/ncursesw/ncurses.h"
+      - "/snap/bin/ncursesw/ncurses.h"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/ncursesw/ncurses.h"
+      - "/usr/local/include/x86_64-linux-gnu/ncursesw/ncurses.h"
+      - "/usr/local/include/ncursesw/ncurses.h"
+      - "/usr/local/ncursesw/ncurses.h"
+      - "/usr/include/x86_64-linux-gnu/ncursesw/ncurses.h"
+    found: "/usr/include/"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux"
+      ENV{PATH}:
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/ros2_lyrical/ros2-linux/bin"
+        - "/home/generadium/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+        - "/snap/bin"
+        - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/usr"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSTEM_INCLUDE_PATH:
+        - "/usr/include/X11"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-4.2/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "/usr/share/cmake-4.2/Modules/FindCurses.cmake:231 (check_library_exists)"
+      - "CMakeLists.txt:23 (find_package)"
+    checks:
+      - "Looking for cbreak in /usr/lib/x86_64-linux-gnu/libncursesw.so"
+    directories:
+      source: "/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-W7DszJ"
+      binary: "/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-W7DszJ"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CURSES_NCURSES_HAS_CBREAK"
+      cached: true
+      stdout: |
+        Change Dir: '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-W7DszJ'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_eafc6/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_eafc6.dir/build.make CMakeFiles/cmTC_eafc6.dir/build
+        gmake[1]: Entering directory '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-W7DszJ'
+        Building C object CMakeFiles/cmTC_eafc6.dir/CheckFunctionExists.c.o
+        /usr/bin/gcc   -DCHECK_FUNCTION_EXISTS=cbreak -o CMakeFiles/cmTC_eafc6.dir/CheckFunctionExists.c.o -c /home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-W7DszJ/CheckFunctionExists.c
+        Linking C executable cmTC_eafc6
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eafc6.dir/link.txt --verbose=1
+        /usr/bin/gcc  -DCHECK_FUNCTION_EXISTS=cbreak CMakeFiles/cmTC_eafc6.dir/CheckFunctionExists.c.o -o cmTC_eafc6  -lncursesw
+        gmake[1]: Leaving directory '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-W7DszJ'
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-4.2/Modules/CheckLibraryExists.cmake:154 (try_compile)"
+      - "/usr/share/cmake-4.2/Modules/FindCurses.cmake:233 (check_library_exists)"
+      - "CMakeLists.txt:23 (find_package)"
+    checks:
+      - "Looking for nodelay in /usr/lib/x86_64-linux-gnu/libncursesw.so"
+    directories:
+      source: "/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-hPIKoY"
+      binary: "/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-hPIKoY"
+    cmakeVariables:
+      CMAKE_C_FLAGS: ""
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: ""
+    buildResult:
+      variable: "CURSES_NCURSES_HAS_NODELAY"
+      cached: true
+      stdout: |
+        Change Dir: '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-hPIKoY'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_ea4ff/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_ea4ff.dir/build.make CMakeFiles/cmTC_ea4ff.dir/build
+        gmake[1]: Entering directory '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-hPIKoY'
+        Building C object CMakeFiles/cmTC_ea4ff.dir/CheckFunctionExists.c.o
+        /usr/bin/gcc   -DCHECK_FUNCTION_EXISTS=nodelay -o CMakeFiles/cmTC_ea4ff.dir/CheckFunctionExists.c.o -c /home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-hPIKoY/CheckFunctionExists.c
+        Linking C executable cmTC_ea4ff
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ea4ff.dir/link.txt --verbose=1
+        /usr/bin/gcc  -DCHECK_FUNCTION_EXISTS=nodelay CMakeFiles/cmTC_ea4ff.dir/CheckFunctionExists.c.o -o cmTC_ea4ff  -lncursesw
+        gmake[1]: Leaving directory '/home/generadium/Projects/TetrisGame/build/CMakeFiles/CMakeScratch/TryCompile-hPIKoY'
+        
+      exitCode: 0
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake-4.2/Modules/FindCurses.cmake:308 (find_library)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "CURSES_FORM_LIBRARY"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "formw"
+    candidate_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+      - "/usr/lib/x86_64-linux-gnu/"
+      - "/home/generadium/.local/bin/"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/"
+      - "/usr/local/lib/x86_64-linux-gnu/"
+      - "/usr/local/lib/"
+      - "/usr/local/"
+      - "/usr/lib/x86_64-linux-gnu/"
+      - "/usr/lib/"
+      - "/usr/"
+      - "/lib/x86_64-linux-gnu/"
+      - "/lib/"
+      - "/usr/X11R6/lib/x86_64-linux-gnu/"
+      - "/usr/X11R6/lib/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/lib/x86_64-linux-gnu/"
+      - "/usr/pkg/lib/"
+      - "/usr/pkg/"
+      - "/opt/lib/x86_64-linux-gnu/"
+      - "/opt/lib/"
+      - "/opt/"
+      - "/usr/lib/X11/"
+    searched_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+    found: "/usr/lib/x86_64-linux-gnu/libformw.so"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux"
+      ENV{PATH}:
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/ros2_lyrical/ros2-linux/bin"
+        - "/home/generadium/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+        - "/snap/bin"
+        - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/usr"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "/usr/lib/X11"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "/usr/share/cmake-4.2/Modules/FindPkgConfig.cmake:765 (find_library)"
+      - "/usr/share/cmake-4.2/Modules/FindPkgConfig.cmake:811 (_pkg_find_libs)"
+      - "/usr/share/cmake-4.2/Modules/FindPkgConfig.cmake:1149 (_pkg_recalculate)"
+      - "/usr/share/cmake-4.2/Modules/FindPkgConfig.cmake:1166 (_pkg_check_modules_internal)"
+      - "/usr/share/cmake-4.2/Modules/FindCurses.cmake:333 (pkg_check_modules)"
+      - "CMakeLists.txt:23 (find_package)"
+    mode: "library"
+    variable: "pkgcfg_lib_NCURSES_ncursesw"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "ncursesw"
+    candidate_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+      - "/home/generadium/.local/bin/"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/"
+      - "/usr/local/lib/x86_64-linux-gnu/"
+      - "/usr/local/lib/"
+      - "/usr/local/"
+      - "/usr/lib/x86_64-linux-gnu/"
+      - "/usr/lib/"
+      - "/usr/"
+      - "/lib/x86_64-linux-gnu/"
+      - "/lib/"
+      - "/usr/X11R6/lib/x86_64-linux-gnu/"
+      - "/usr/X11R6/lib/"
+      - "/usr/X11R6/"
+      - "/usr/pkg/lib/x86_64-linux-gnu/"
+      - "/usr/pkg/lib/"
+      - "/usr/pkg/"
+      - "/opt/lib/x86_64-linux-gnu/"
+      - "/opt/lib/"
+      - "/opt/"
+      - "/usr/lib/X11/"
+    searched_directories:
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/x86_64-linux-gnu/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/lib/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/"
+      - "/home/generadium/.local/bin/"
+      - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z/"
+      - "/home/generadium/ros2_lyrical/ros2-linux/bin/"
+      - "/usr/local/sbin/"
+      - "/usr/local/bin/"
+      - "/usr/sbin/"
+      - "/usr/bin/"
+      - "/sbin/"
+      - "/bin/"
+      - "/usr/games/"
+      - "/usr/local/games/"
+      - "/snap/bin/"
+      - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64/"
+      - "/usr/local/lib/x86_64-linux-gnu/"
+      - "/usr/local/lib/"
+      - "/usr/local/"
+    found: "/usr/lib/x86_64-linux-gnu/libncursesw.so"
+    search_context:
+      ENV{CMAKE_PREFIX_PATH}:
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_math_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_utils_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux/opt/gz_cmake_vendor"
+        - "/home/generadium/ros2_lyrical/ros2-linux"
+      ENV{PATH}:
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.codex/tmp/arg0/codex-arg094IM9Z"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/.local/bin"
+        - "/home/generadium/ros2_lyrical/ros2-linux/bin"
+        - "/home/generadium/.local/bin"
+        - "/usr/local/sbin"
+        - "/usr/local/bin"
+        - "/usr/sbin"
+        - "/usr/bin"
+        - "/sbin"
+        - "/bin"
+        - "/usr/games"
+        - "/usr/local/games"
+        - "/snap/bin"
+        - "/snap/bin"
+        - "/home/generadium/.vscode/extensions/openai.chatgpt-26.721.41059-linux-x64/bin/linux-x86_64"
+      CMAKE_INSTALL_PREFIX: "/usr/local"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "/usr/local"
+        - "/usr"
+        - "/"
+        - "/usr"
+        - "/usr/local"
+        - "/usr/X11R6"
+        - "/usr/pkg"
+        - "/opt"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "/usr/lib/X11"
+...

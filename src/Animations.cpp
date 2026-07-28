@@ -152,7 +152,7 @@ void Game::animate_board_init()
 
     constexpr auto wallDelay = std::chrono::milliseconds(25);
     constexpr auto floorDelay = std::chrono::milliseconds(35);
-    constexpr auto fillDelay = std::chrono::milliseconds(8);
+    constexpr auto fillDelay = std::chrono::milliseconds(25);
 
     // Present everything currently drawn.
     const auto present = []() {
@@ -230,13 +230,159 @@ void Game::animate_board_init()
     for (int y = 0; y < height - 2; ++y) {
         for (int x = 3; x < width - 2; x += 2) {
             DrawAt(boardX + x, boardY + y, '.');
-
-            present();
-            std::this_thread::sleep_for(fillDelay);
         }
+        present();
+        std::this_thread::sleep_for(fillDelay);
+        
     }
 
     std::this_thread::sleep_for(
         std::chrono::milliseconds(250)
     );
+}
+
+void Game::animate_line_wipes(bool game_over, bool regame)
+{
+    int screen_height;
+    int screen_width;
+
+    getmaxyx(stdscr, screen_height, screen_width);
+
+    const int board_x =
+        std::max(0, (screen_width - board.get_width()) / 2);
+
+    const int board_y =
+        std::max(0, (screen_height - board.get_height()) / 2);
+
+    const int width = board.get_width();
+    const int height = board.get_height();
+
+    const auto& built_points = board.get_built_points();
+
+    constexpr auto line_delay = std::chrono::milliseconds(25);
+
+    const auto present = [](){refresh();};
+
+    if(game_over){
+
+        for(int y = height - 3; y >= 0; --y)
+        {
+            for(int x = 3; x < width - 2; x += 2)
+                DrawAt(board_x + x, board_y + y, ' ');
+        
+            refresh();
+            std::this_thread::sleep_for(line_delay);
+        }
+    }
+
+    if(regame){
+        for (int y = 0; y < height - 2; ++y) {
+            for (int x = 3; x < width - 2; x += 2) 
+                DrawAt(board_x + x, board_y + y, '.');
+        
+            present();
+            std::this_thread::sleep_for(line_delay);
+        }
+    }
+
+}
+
+void Game::animate_board_erase()
+{
+    int screen_height;
+    int screen_width;
+
+    getmaxyx(stdscr, screen_height, screen_width);
+
+    const int width = board.get_width();
+    const int height = board.get_height();
+
+    const int board_x =
+        std::max(0, (screen_width - board.get_width()) / 2);
+
+    const int board_y =
+        std::max(0, (screen_height - board.get_height()) / 2);
+
+    const std::vector<Cell> built_points = board.get_built_points();
+    const std::vector<std::wstring> cell_demo{L"▣▣",L"※※",L"❉❉",L"⁙⁙",L" ."};
+    //const std::vector<std::string> cell_demo{
+    // "▓▓",
+    // "▒▒",
+    // "░░",
+    // "**",
+    // "..",
+    // "  "
+//};
+    std::vector<std::vector<Cell>> cells_by_row(height - 2);
+
+    if(built_points.empty())
+        return;
+
+    constexpr auto white_delay = std::chrono::milliseconds(250);
+    constexpr auto collapse_delay = std::chrono::milliseconds(50);
+
+    draw(false);
+
+    // Turn every [ and ] position white.
+// for (const Cell& tile : built_points) {
+//     if (tile.get_y() < 0 ||
+//         tile.get_y() >= board.get_height() - 2)
+//         continue;
+
+//     DrawWhiteBlockAt(
+//         board_x + tile.get_x(),
+//         board_y + tile.get_y()
+//     );
+//     }
+
+// refresh();
+
+for (const Cell& tile : built_points) {
+    if (tile.get_y() < 0 || tile.get_y() >= height - 2)
+        continue;
+
+    cells_by_row[tile.get_y()].push_back(tile);
+}
+
+for (std::size_t first = 0; first < cells_by_row.size(); first += 2)
+{
+    const std::size_t second = first + 1;
+
+    if (cells_by_row[first].empty() &&
+        (second >= cells_by_row.size() ||
+         cells_by_row[second].empty()))
+    {
+        continue;
+    }
+
+    for (const std::wstring& frame : cell_demo)
+    {
+        // Animate the first row.
+        for (const Cell& cell : cells_by_row[first])
+        {
+            DrawAt(
+                board_x + cell.get_x(),
+                board_y + cell.get_y(),
+                frame.c_str()
+            );
+        }
+
+        // Animate the second row when it exists.
+        if (second < cells_by_row.size())
+        {
+            for (const Cell& cell : cells_by_row[second])
+            {
+                DrawAt(
+                    board_x + cell.get_x(),
+                    board_y + cell.get_y(),
+                    frame.c_str()
+                );
+            }
+        }
+
+        // Present both rows simultaneously.
+        refresh();
+        std::this_thread::sleep_for(collapse_delay);
+    }
+}
 }

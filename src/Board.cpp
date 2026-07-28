@@ -114,3 +114,9 @@ std::vector<int> Board::get_completed_rows() const
 
     return rows;
 }
+
+void Board::clear_built_points()
+{
+    built_points.clear();
+    set_border();
+}

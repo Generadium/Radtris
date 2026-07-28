@@ -19,6 +19,7 @@ target_include_directories(tetris PRIVATE
 )
 
 if (UNIX AND NOT APPLE)
+    set(CURSES_NEED_WIDE TRUE)
     find_package(Curses REQUIRED)
     target_include_directories(tetris PRIVATE ${CURSES_INCLUDE_DIR})
     target_link_libraries(tetris PRIVATE ${CURSES_LIBRARIES})
