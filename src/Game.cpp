@@ -11,7 +11,7 @@ Game::Game() // Game constructor
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
 
-    animate_board_init();
+    //animate_board_init();
 
     bool again = false;
     do // do while loop, run the game while regame is still true
@@ -33,7 +33,7 @@ Game::Game() // Game constructor
         running();
         again = regame();
         if(again){
-            animate_board_erase();
+            //animate_board_erase();
             board.clear_built_points();
         }
     } while (again);
@@ -127,7 +127,7 @@ void Game::running() //runs in the background while the game is running
         const auto complete_rows = board.get_completed_rows();
         if(!complete_rows.empty())
         {
-            animate_line(complete_rows);
+            //animate_line(complete_rows);
 
             board.remove_row(complete_rows);
 
