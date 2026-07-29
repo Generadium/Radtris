@@ -10,14 +10,8 @@
 #include <random>
 #include <clocale>
 #include <cwchar>
-
-#ifdef _WIN32
-    #include <windows.h>
-    #include <conio.h>
-#else
-    #include <unistd.h>
-    #include <ncurses.h>
-#endif
+#include <unistd.h>
+#include <ncurses.h>
 
 using namespace std;
 
@@ -115,9 +109,9 @@ public:
     Game(); //constructor
 
     void running(); // main game loop, this contains the main game sequence
-    void DrawAt(int x, int y, char ch);
-    void DrawAt(int x, int y, const char *text);
-    void DrawAt(int x, int y, const wchar_t* text);
+    void draw_cell(int x, int y, char ch);
+    void draw_cell(int x, int y, const char *text);
+    void draw_cell(int x, int y, const wchar_t* text);
     void draw(bool present = true); // draws the board on the screen
     void refreshall(); //refreshes the final points on the screen
     void lock(); //converts the piece to built cells
@@ -129,9 +123,8 @@ public:
     void animate_board_erase();
     void refresh_board();
     void draw_clear_frame(const std::vector<int>& rows, int dissolvedDistance, bool flashOn);
-    void DrawWhiteBlockAt(int x, int y);
-    void ClearScreen(); // function that prevents the screen from rapidly flickering and jumping
-
+    void white(int x, int y);
+    
     bool blocksland(); // checks for collisions with the floor, wall, or with other pieces
     bool checked_move(enum move_direction dir); // checks if the piece is still able to move
     bool checked_rotate(); // checks if the piece is still able to rotate

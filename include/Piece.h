@@ -5,14 +5,8 @@
 #include <vector>
 #include <stdlib.h>
 #include <time.h>
-
-#ifdef _WIN32
-    #include <windows.h>
-    #include <conio.h>
-#else
-    #include <unistd.h>
-    #include <ncurses.h>
-#endif
+#include <unistd.h>
+#include <ncurses.h>
 
 using namespace std;
 

@@ -12,18 +12,7 @@ void Game::draw_clear_frame(
     int screenHeight;
     int screenWidth;
 
-#ifndef _WIN32
     getmaxyx(stdscr, screenHeight, screenWidth);
-#else
-    CONSOLE_SCREEN_BUFFER_INFO info;
-    GetConsoleScreenBufferInfo(
-        GetStdHandle(STD_OUTPUT_HANDLE),
-        &info
-    );
-
-    screenWidth = info.srWindow.Right - info.srWindow.Left + 1;
-    screenHeight = info.srWindow.Bottom - info.srWindow.Top + 1;
-#endif
 
     const int boardX =
         std::max(0, (screenWidth - board.get_width()) / 2);
@@ -50,13 +39,13 @@ void Game::draw_clear_frame(
             const int cellX = 2 + block * 2;
 
             if (dissolved || !flashOn) {
-                DrawAt(
+                draw_cell(
                     boardX + cellX,
                     boardY + row,
                     " ."
                 );
             } else {
-                DrawWhiteBlockAt(
+                white(
                     boardX + cellX,
                     boardY + row
                 );
@@ -64,22 +53,14 @@ void Game::draw_clear_frame(
         }
     }
 
-#ifndef _WIN32
     refresh();
-#else
-    std::cout.flush();
-#endif
 }
 
-void Game::DrawWhiteBlockAt(int x, int y)
+void Game::white(int x, int y)
 {
-#ifndef _WIN32
     attron(A_REVERSE | A_BOLD);
     mvaddstr(y, x, "  ");
     attroff(A_REVERSE | A_BOLD);
-#else
-    DrawAt(x, y, "██");
-#endif
 }
 
 void Game::animate_line(const std::vector<int>& rows)
@@ -125,21 +106,9 @@ void Game::animate_board_init()
     int screenHeight;
     int screenWidth;
 
-#ifndef _WIN32
+
     getmaxyx(stdscr, screenHeight, screenWidth);
     erase();
-#else
-    CONSOLE_SCREEN_BUFFER_INFO info;
-    GetConsoleScreenBufferInfo(
-        GetStdHandle(STD_OUTPUT_HANDLE),
-        &info
-    );
-
-    screenWidth = info.srWindow.Right - info.srWindow.Left + 1;
-    screenHeight = info.srWindow.Bottom - info.srWindow.Top + 1;
-
-    ClearScreen();
-#endif
 
     const int boardX =
         std::max(0, (screenWidth - board.get_width()) / 2);
@@ -155,13 +124,7 @@ void Game::animate_board_init()
     constexpr auto fillDelay = std::chrono::milliseconds(25);
 
     // Present everything currently drawn.
-    const auto present = []() {
-#ifndef _WIN32
-        refresh();
-#else
-        std::cout.flush();
-#endif
-    };
+    const auto present = []() {refresh();};
 
     // 1. Draw the vertical walls from top to bottom.
     //
@@ -171,22 +134,22 @@ void Game::animate_board_init()
     // x == width - 2 contains '!'
     // x == width - 1 contains '>'
     for (int y = 0; y < height - 2; ++y) {
-        DrawAt(boardX,             boardY + y, '<');
-        DrawAt(boardX + 1,         boardY + y, '!');
-        DrawAt(boardX + width - 2, boardY + y, '!');
-        DrawAt(boardX + width - 1, boardY + y, '>');
+        draw_cell(boardX,             boardY + y, '<');
+        draw_cell(boardX + 1,         boardY + y, '!');
+        draw_cell(boardX + width - 2, boardY + y, '!');
+        draw_cell(boardX + width - 1, boardY + y, '>');
 
         present();
         std::this_thread::sleep_for(wallDelay);
     }
 
     // Draw the row directly above the patterned bottom border.
-    DrawAt(boardX, boardY + height - 2, '<');
+    draw_cell(boardX, boardY + height - 2, '<');
 
     for (int x = 1; x < width - 1; ++x)
-        DrawAt(boardX + x, boardY + height - 2, '=');
+        draw_cell(boardX + x, boardY + height - 2, '=');
 
-    DrawAt(
+    draw_cell(
         boardX + width - 1,
         boardY + height - 2,
         '>'
@@ -206,13 +169,13 @@ void Game::animate_board_init()
 
         if (left > 0) {
             const char symbol = (left % 2 == 0) ? '/' : '\\';
-            DrawAt(boardX + left, bottomY, symbol);
+            draw_cell(boardX + left, bottomY, symbol);
             drewCharacter = true;
         }
 
         if (right < width - 1) {
             const char symbol = (right % 2 == 0) ? '/' : '\\';
-            DrawAt(boardX + right, bottomY, symbol);
+            draw_cell(boardX + right, bottomY, symbol);
             drewCharacter = true;
         }
 
@@ -229,7 +192,7 @@ void Game::animate_board_init()
     // because each logical Tetris block occupies two terminal columns.
     for (int y = 0; y < height - 2; ++y) {
         for (int x = 3; x < width - 2; x += 2) {
-            DrawAt(boardX + x, boardY + y, '.');
+            draw_cell(boardX + x, boardY + y, '.');
         }
         present();
         std::this_thread::sleep_for(fillDelay);
@@ -268,7 +231,7 @@ void Game::animate_line_wipes(bool game_over, bool regame)
         for(int y = height - 3; y >= 0; --y)
         {
             for(int x = 3; x < width - 2; x += 2)
-                DrawAt(board_x + x, board_y + y, ' ');
+                draw_cell(board_x + x, board_y + y, ' ');
         
             refresh();
             std::this_thread::sleep_for(line_delay);
@@ -278,7 +241,7 @@ void Game::animate_line_wipes(bool game_over, bool regame)
     if(regame){
         for (int y = 0; y < height - 2; ++y) {
             for (int x = 3; x < width - 2; x += 2) 
-                DrawAt(board_x + x, board_y + y, '.');
+                draw_cell(board_x + x, board_y + y, '.');
         
             present();
             std::this_thread::sleep_for(line_delay);
@@ -305,14 +268,7 @@ void Game::animate_board_erase()
 
     const std::vector<Cell> built_points = board.get_built_points();
     const std::vector<std::wstring> cell_demo{L"▣▣",L"※※",L"❉❉",L"⁙⁙",L" ."};
-    //const std::vector<std::string> cell_demo{
-    // "▓▓",
-    // "▒▒",
-    // "░░",
-    // "**",
-    // "..",
-    // "  "
-//};
+
     std::vector<std::vector<Cell>> cells_by_row(height - 2);
 
     if(built_points.empty())
@@ -323,19 +279,6 @@ void Game::animate_board_erase()
 
     draw(false);
 
-    // Turn every [ and ] position white.
-// for (const Cell& tile : built_points) {
-//     if (tile.get_y() < 0 ||
-//         tile.get_y() >= board.get_height() - 2)
-//         continue;
-
-//     DrawWhiteBlockAt(
-//         board_x + tile.get_x(),
-//         board_y + tile.get_y()
-//     );
-//     }
-
-// refresh();
 
 for (const Cell& tile : built_points) {
     if (tile.get_y() < 0 || tile.get_y() >= height - 2)
@@ -360,7 +303,7 @@ for (std::size_t first = 0; first < cells_by_row.size(); first += 2)
         // Animate the first row.
         for (const Cell& cell : cells_by_row[first])
         {
-            DrawAt(
+            draw_cell(
                 board_x + cell.get_x(),
                 board_y + cell.get_y(),
                 frame.c_str()
@@ -372,7 +315,7 @@ for (std::size_t first = 0; first < cells_by_row.size(); first += 2)
         {
             for (const Cell& cell : cells_by_row[second])
             {
-                DrawAt(
+                draw_cell(
                     board_x + cell.get_x(),
                     board_y + cell.get_y(),
                     frame.c_str()

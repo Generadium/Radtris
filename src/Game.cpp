@@ -3,7 +3,6 @@
 Game::Game() // Game constructor
     : run {true}
 {
-    #ifndef _WIN32
     std::setlocale(LC_ALL, "");
     initscr();
     noecho();
@@ -11,7 +10,6 @@ Game::Game() // Game constructor
     curs_set(0);
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
-    #endif
 
     animate_board_init();
 
@@ -40,61 +38,23 @@ Game::Game() // Game constructor
         }
     } while (again);
 
-    #ifndef _WIN32
     refresh();
     endwin();
     std::cout << "\033[2J\033[H" << std::flush;
-    #endif
+
 }
 
-void Game::DrawAt(int x, int y, char ch){
-    #ifdef _WIN32
-    COORD pos;
-    pos.X = x;
-    pos.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-    std::cout << ch;
-    #else
+void Game::draw_cell(int x, int y, char ch){
     mvaddch(y, x, ch);
-    #endif
 }
 
-void Game::DrawAt(int x, int y, const char *text){
-    #ifdef _WIN32
-    COORD pos;
-    pos.X = x;
-    pos.Y = y;
-    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
-    std::cout << text;
-    #else
+void Game::draw_cell(int x, int y, const char *text){
     mvprintw(y, x, "%s", text);
-    #endif
 }
 
-void Game::DrawAt(int x, int y, const wchar_t* text)
+void Game::draw_cell(int x, int y, const wchar_t* text)
 {
-#ifndef _WIN32
     mvaddwstr(y, x, text);
-#else
-    COORD pos{
-        static_cast<SHORT>(x),
-        static_cast<SHORT>(y)
-    };
-
-    SetConsoleCursorPosition(
-        GetStdHandle(STD_OUTPUT_HANDLE),
-        pos
-    );
-
-    DWORD written;
-    WriteConsoleW(
-        GetStdHandle(STD_OUTPUT_HANDLE),
-        text,
-        static_cast<DWORD>(std::wcslen(text)),
-        &written,
-        nullptr
-    );
-#endif
 }
 
 void Game::running() //runs in the background while the game is running
@@ -135,8 +95,8 @@ void Game::running() //runs in the background while the game is running
                 getmaxyx(stdscr, screen_height, screen_width);
                 int board_x = std::max(0, (screen_width - board.get_width()) / 2);
 
-                DrawAt((board_x - 27),2,"PAUSED");
-                DrawAt((board_x - 27),3,"Press p to resume");
+                draw_cell((board_x - 27),2,"PAUSED");
+                draw_cell((board_x - 27),3,"Press p to resume");
                 refresh();
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(20));
@@ -205,31 +165,24 @@ bool Game::game_over() //declares the game over
 
 bool Game::regame() //game over screen, asks the player to play again
 {
-    #ifndef _WIN32
     nodelay(stdscr, FALSE);
     flushinp();
-    #endif
 
     getmaxyx(stdscr, screen_height, screen_width);
     int board_x = std::max(0, (screen_width - board.get_width()) / 2);
-    //Modify to fit left side of board
-    DrawAt((board_x - 27), 2, "GAME OVER");
-    DrawAt((board_x - 27), 3, "Want to play again? (y/n)");
+    draw_cell((board_x - 27), 2, "GAME OVER");
+    draw_cell((board_x - 27), 3, "Want to play again? (y/n)");
     refresh();
 
     while (true)
     {
-        #ifdef _WIN32
-            const int c = _getch();
-        #else
-            const int c = getch();
-        #endif
 
+        const int c = getch();
+   
         if (c == 'y' || c == 'Y') // if 'y' is entered, game restarts
         {
-            #ifndef _WIN32
             nodelay(stdscr, TRUE);
-            #endif
+
             return true;
         }
         if (c == 'n' || c == 'N') // if 'n' is entered, program terminates
@@ -335,30 +288,30 @@ void Game::draw(bool present) //creates the board
             auto t = find(final_points.begin(), final_points.end(), Cell(j, i)); // uses find function to find all final points within range of for loop
             if(t == final_points.end()) continue;
             if(t->get_type() == 'O'){
-                DrawAt(board_x + j, board_y + i, "[]");
+                draw_cell(board_x + j, board_y + i, "[]");
                 ++j;
             } else {
-                DrawAt(board_x + j, board_y + i, t->get_type());
+                draw_cell(board_x + j, board_y + i, t->get_type());
             }
         }    
     }
     Piece preview(Cell(board_x + board.get_width() + 6, board_y + 8, 'O'), next);
 
-    DrawAt(board_x + (board.get_width() / 2) - 3, board_y - 1,"TETRIS");
-    DrawAt((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str());
-    DrawAt((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str());
-    DrawAt((board_x + board.get_width() + 2), board_y + 6, "Next piece: ");
-    DrawAt((board_x - 27),7,"Controls: ");
+    draw_cell(board_x + (board.get_width() / 2) - 3, board_y - 1,"TETRIS");
+    draw_cell((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str());
+    draw_cell((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str());
+    draw_cell((board_x + board.get_width() + 2), board_y + 6, "Next piece: ");
+    draw_cell((board_x - 27),7,"Controls: ");
 
     int control_y = 10;
     for(const Controls& controls : controls){
         std::string line = 
         std::string(controls.key) + " : " + controls.action;
-        DrawAt((board_x - 27), control_y++, line.c_str());
+        draw_cell((board_x - 27), control_y++, line.c_str());
     }
 
     for (const auto& cell : preview.get_body())
-        DrawAt(cell.get_x(), cell.get_y(), "[]");
+        draw_cell(cell.get_x(), cell.get_y(), "[]");
     
     if(present)
         refresh();
@@ -375,7 +328,6 @@ void Game::lock()
 {
     board.insert_to_built_points(piece.get_body());//sends current piece to built points (tiles that have been built)
     piece_count++; // adds to piece count
-
     piece_active = false;
     lock_active = false;
 }
@@ -433,24 +385,7 @@ void Game::refill()
 }
 
 Game::Input Game::readInput(){
-    #ifdef _WIN32
-        if (GetAsyncKeyState(VK_UP) & 0x8000)
-    {
-        return Input::up;
-    }
-    else if (GetAsyncKeyState(VK_DOWN) & 0x8000)
-    {
-        return Input::down;
-    }
-    else if (GetAsyncKeyState(VK_RIGHT) & 0x8000)
-    {
-        return Input::right;
-    }
-    else if (GetAsyncKeyState(VK_LEFT) & 0x8000)
-    {
-        return Input::left;
-    }
-    #else
+ 
     int ch = getch();
 
     switch (ch){
@@ -464,7 +399,7 @@ Game::Input Game::readInput(){
         case KEY_RESIZE: clearok(stdscr, TRUE); return Input::none;
         default: return Input::none;
     }
-    #endif
+
 }
 
 Game::Result Game::readResult(Input key)
@@ -496,19 +431,5 @@ Game::Result Game::readResult(Input key)
 
         default:
             return Result::none;
-
     }
-}
-
-void Game::ClearScreen() 
-{
-    // Function which cleans the screen without flickering
-    #ifdef _WIN32
-        COORD cursorPosition;
-        cursorPosition.X = 0;
-        cursorPosition.Y = 0;
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPosition);
-    #else
-        std::cout << "\033[H";
-    #endif
 }
