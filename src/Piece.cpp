@@ -6,8 +6,6 @@ Piece::Piece(Cell pos, piece_type type) //defines all the pieces on an x,y grid
     {
         build_body(type);
     }
- 
-
 
 void Piece::build_body(piece_type type)
 {
@@ -39,16 +37,12 @@ void Piece::build_body(piece_type type)
 
 void Piece::fall_down() // automatically causes pieces to fall
 {
-    #ifndef _WIN32
     pos.move(0, +1); //allows piece to continue falling while rotating
     for (auto& point : body) // creates a pointer that points to the address of 'body'
         point.move(0, +1); //move the pieces down automatically -1 y positions during each iteration
-    #else
-    //define for Windows here
-    #endif
 }
 
-vector<Cell> Piece::fallenbody() // allows the piece's body to shift downward by creating a copy of it at -1y increments
+vector<Cell> Piece::fallen_body() // allows the piece's body to shift downward by creating a copy of it at -1y increments
 {
     vector<Cell> next_body;
     for (const auto& point : body) // creates a pointer that does not modify body
@@ -64,7 +58,7 @@ void Piece::move(enum move_direction dir) //moves the pieces left or right
         point.move(dir, 0);
 }
 
-vector<Cell> Piece::movedbody(enum move_direction dir)  // creates the body of the piece after it has been moved
+vector<Cell> Piece::moved_body(enum move_direction dir)  // creates the body of the piece after it has been moved
 {
     vector<Cell> next_body;
     for (const auto& point : body) // pointer to body
@@ -82,7 +76,7 @@ void Piece::rotate() //rotates the pieces
     }
 }
 
-vector<Cell> Piece::rotatedbody() //creates the rotated body of the piece
+vector<Cell> Piece::rotated_body() //creates the rotated body of the piece
 {
     vector<Cell> next_body;
     for (const auto& point : body)

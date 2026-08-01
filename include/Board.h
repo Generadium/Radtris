@@ -7,7 +7,7 @@
 #include <thread>
 #include <chrono>
 #include <functional>
-#include <ncurses.h>
+//#include <ncurses.h>
 
 using namespace std;
 
@@ -27,13 +27,14 @@ public:
     
     vector<Cell> get_all_points(){ return all_points; } // mutator for all points vector
     vector<Cell> get_built_points() { return built_points; } // mutator for built points variable 
+    vector<int> get_completed_rows() const;
+
     void set_built_points(vector<Cell> built_points) { this->built_points = built_points; } // built points accessor, uses this pointer
     void clear_built_points();
     void set_border(); // accessor for border
-    
     void insert_to_built_points(vector<Cell> insert_points);
     void remove_row(const std::vector<int>& rows); // removes row of tiles when row is filled
-    std::vector<int> get_completed_rows() const;
+    void points_fall(const std::vector<int>& rows);
     void refresh(); // refreshes the board in the game loop
 
 };

@@ -11,8 +11,6 @@ Game::Game() // Game constructor
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
 
-    //animate_board_init();
-
     bool again = false;
     do // do while loop, run the game while regame is still true
     {
@@ -32,10 +30,9 @@ Game::Game() // Game constructor
 
         running();
         again = regame();
-        if(again){
-            //animate_board_erase();
+        if(again)
             board.clear_built_points();
-        }
+        
     } while (again);
 
     refresh();
@@ -44,6 +41,7 @@ Game::Game() // Game constructor
 
 }
 
+//function wrappers for drawing characters on the screen 
 void Game::draw_cell(int x, int y, char ch){
     mvaddch(y, x, ch);
 }
@@ -52,19 +50,13 @@ void Game::draw_cell(int x, int y, const char *text){
     mvprintw(y, x, "%s", text);
 }
 
-void Game::draw_cell(int x, int y, const wchar_t* text)
+void Game::running() //main game loop
 {
-    mvaddwstr(y, x, text);
-}
-
-void Game::running() //runs in the background while the game is running
-{
-    //animate_board_init();
-    next = generate_piece_type();
+    next = generate_piece_type(); // next piece is preemptively generated
 
     while (!game_over()) //while it is not game over
     {
-        piece = Piece(Cell(board.get_width() / 2, board.get_height() - 24, 'O'), next);
+        piece = Piece(Cell(board.get_width() / 2, board.get_height() - 24, 'O'), next); //piece generated
 
         next = generate_piece_type();
         piece_active = true;
@@ -116,10 +108,8 @@ void Game::running() //runs in the background while the game is running
             }
 
             update_lock_delay(result, Clock::now());
-
             refresh_board();
-
-            std::this_thread::sleep_for(std::chrono::milliseconds(12));
+            std::this_thread::sleep_for(std::chrono::milliseconds(25));
         }
 
         refresh_board();
@@ -127,13 +117,14 @@ void Game::running() //runs in the background while the game is running
         const auto complete_rows = board.get_completed_rows();
         if(!complete_rows.empty())
         {
-            //animate_line(complete_rows);
-
+            //modify here?
             board.remove_row(complete_rows);
-
             lines_built += static_cast<int>(complete_rows.size());
             score = score_calc(complete_rows, level);
+            refresh_board();
 
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            board.points_fall(complete_rows);
             refresh_board();
         }
     }
@@ -149,6 +140,8 @@ int Game::score_calc(std::vector<int> completed_rows, int level)
         score += 300*(level + 1);
     if(completed_rows.size() == 4)
         score += 1200*(level + 1);
+    if(blocksland())
+        score += 5;
 
     return score;
 }
@@ -176,7 +169,6 @@ bool Game::regame() //game over screen, asks the player to play again
 
     while (true)
     {
-
         const int c = getch();
    
         if (c == 'y' || c == 'Y') // if 'y' is entered, game restarts
@@ -193,14 +185,13 @@ bool Game::regame() //game over screen, asks the player to play again
 
 bool Game::blocksland() // sends the bodies of pieced that land to built points when they land 
 {
-    for (const auto& next_piece_pnt : piece.fallenbody()) //const pointer that points to piece.next_fall_down_body()
+    for (const auto& next_piece_pnt : piece.fallen_body()) //const pointer that points to piece.next_fall_down_body()
     {
         //Sets the piece to hit the ground
-        //For Windows, y == 1
         if (next_piece_pnt.get_y() == 20)  //if piece hits y = 1
             return true;
         
-        //Sets piece to hit built points
+        //Sets piece to collide with built tiles
         for (auto& built_pnt : board.get_built_points()) // if piece lands on top of a built piece
             if (next_piece_pnt == built_pnt) 
                 return true;
@@ -212,7 +203,7 @@ bool Game::blocksland() // sends the bodies of pieced that land to built points 
 
 bool Game::checked_move(enum move_direction dir)
 {
-    for (const auto& next_piece_pnt : piece.movedbody(dir))
+    for (const auto& next_piece_pnt : piece.moved_body(dir))
     { 
         if (next_piece_pnt.get_x() <= 1 || next_piece_pnt.get_x() >= (board.get_width() - 3)) //prohibits pieces from going through the borders
             return false;
@@ -228,7 +219,7 @@ bool Game::checked_move(enum move_direction dir)
 
 bool Game::checked_rotate() 
 {
-    for (const auto& next_piece_pnt : piece.rotatedbody()) // pointer to the rotated body of a the current piece
+    for (const auto& next_piece_pnt : piece.rotated_body()) // pointer to the rotated body of the current piece
     {
         if (next_piece_pnt.get_x() <= 1 || next_piece_pnt.get_x() >= (board.get_width() - 2)) //pieces on the border cannot rotate
             return false;
@@ -243,7 +234,7 @@ bool Game::checked_rotate()
 
 bool Game::can_fall()
 {
-    for(const auto& next_piece_pnt : piece.fallenbody())
+    for(const auto& next_piece_pnt : piece.fallen_body())
     {
         if(next_piece_pnt.get_y() >= board.get_height() - 2) //if next position contains built points
             return false;
@@ -262,15 +253,6 @@ bool Game::checked_fall()
         return false;
     piece.fall_down();
     return true;
-}
-
-void Game::refreshall()
-{
-    final_points = board.get_all_points(); // gathers all tiles
-    for (auto &final_pnt : final_points) // pointer to all cells at the end of a game
-        for (auto piece_pnt : piece.get_body()) // sets all built cells to final cells
-            if (final_pnt == piece_pnt)
-                final_pnt = piece_pnt;
 }
 
 void Game::draw(bool present) //creates the board
@@ -320,7 +302,14 @@ void Game::draw(bool present) //creates the board
 void Game::refresh_board()
 {
     board.refresh();
-    refreshall();
+    final_points = board.get_all_points(); // gathers all tiles
+    if(piece_active)
+    {
+    for (auto &final_pnt : final_points) // pointer to all cells at the end of a game
+        for (auto piece_pnt : piece.get_body()) // sets all built cells to final cells
+            if (final_pnt == piece_pnt)
+                final_pnt = piece_pnt;
+    }
     draw();
 }
 

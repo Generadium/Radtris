@@ -23,7 +23,7 @@ void Board::refresh() // sets all recently fallen blocks or tiles to new built t
         }
 }
 
-void Board::insert_to_built_points(vector<Cell> insert_points) 
+void Board::insert_to_built_points(vector<Cell> insert_points) //sends piece points to built points
 {built_points.insert(built_points.end(), insert_points.begin(), insert_points.end());}
 
 void Board::set_border()
@@ -82,8 +82,13 @@ void Board::remove_row(const std::vector<int>& rows)
         built_points.end()
     );
 
+}
+
+void Board::points_fall(const std::vector<int>& rows)
+{
     for (auto& point : built_points) {
-        const int clearedBelow = std::count_if(
+        //number of rows shift down
+        const int cleared_below = std::count_if(
             rows.begin(),
             rows.end(),
             [&point](int row) {
@@ -91,10 +96,12 @@ void Board::remove_row(const std::vector<int>& rows)
             }
         );
 
-        point.move(0, clearedBelow);
+        //shifts all built points above removed rows down
+        point.move(0, cleared_below);
     }
 }
 
+//modify?
 std::vector<int> Board::get_completed_rows() const
 {
     std::vector<int> rows;
@@ -115,6 +122,7 @@ std::vector<int> Board::get_completed_rows() const
     return rows;
 }
 
+//clears all built points for the board
 void Board::clear_built_points()
 {
     built_points.clear();

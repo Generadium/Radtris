@@ -42,8 +42,8 @@ private:
 
     Board board; //board variable
     Piece piece; // current piece variable
-    piece_type next;
-    piece_type type;
+    piece_type next; //displays the next piece 
+    piece_type type; //variable for type of piece
     vector<Cell> final_points;
     vector<piece_type> bag;
 
@@ -51,12 +51,14 @@ private:
     int score = 0; //score set to 0
     int piece_count = 0; // number of pieces that have fallen
     int level = 0; // intial value of the level
-    int screen_width = 0;
-    int screen_height = 0;
+    int board_x = 0; // x axis of the board
+    int board_y = 0; // y axis of the board
+    int screen_width = 0; //controls width of the screen
+    int screen_height = 0; //controls height of the screen
 
     bool run; // boolean run variable
-    bool paused = false;
-    bool piece_active = false;
+    bool paused = false; //is game paused
+    bool piece_active = false;//is a piece active on the board
     bool lock_active = false;
     bool slam_request = false;
 
@@ -75,6 +77,7 @@ private:
         const char* action;
     };
 
+    //displays controls on screen
     static constexpr Controls controls[] = {
         {"<- / ->", "Move left/right"},
         {"^", "Rotate"},
@@ -109,21 +112,13 @@ public:
     Game(); //constructor
 
     void running(); // main game loop, this contains the main game sequence
-    void draw_cell(int x, int y, char ch);
+    void draw_cell(int x, int y, char ch); //overloaded functions for drawing the game in the terminal
     void draw_cell(int x, int y, const char *text);
-    void draw_cell(int x, int y, const wchar_t* text);
     void draw(bool present = true); // draws the board on the screen
-    void refreshall(); //refreshes the final points on the screen
     void lock(); //converts the piece to built cells
     void update_lock_delay(Result result, Clock::time_point now);
     void refill();
-    void animate_line(const std::vector<int>& rows);
-    void animate_board_init();
-    void animate_line_wipes(bool game_over, bool regame);
-    void animate_board_erase();
-    void refresh_board();
-    void draw_clear_frame(const std::vector<int>& rows, int dissolvedDistance, bool flashOn);
-    void white(int x, int y);
+    void refresh_board();//refreshes all cells on the board
     
     bool blocksland(); // checks for collisions with the floor, wall, or with other pieces
     bool checked_move(enum move_direction dir); // checks if the piece is still able to move

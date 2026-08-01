@@ -37,11 +37,11 @@ public:
     Piece() = default; //default constructor
     Piece(Cell pos, piece_type type); // constructor that uses the pos variable
     void fall_down(); //function that causes pieces to automatically fall down
-    vector<Cell> fallenbody(); // function that creates the body of the piece after it has fallen
+    vector<Cell> fallen_body(); // function that creates the body of the piece after it has fallen
     void move(enum move_direction dir); // function that causes the pieces to move left or right
-    vector<Cell> movedbody(enum move_direction dir); // function that creates the body of the piece after it has moved
+    vector<Cell> moved_body(enum move_direction dir); // function that creates the body of the piece after it has moved
     void rotate(); //function that causes pieces to rotate
-    vector<Cell> rotatedbody(); // function that creates the body of the piece that has rotated
+    vector<Cell> rotated_body(); // function that creates the body of the piece that has rotated
     vector<Cell> get_body() 
     { 
         return body; 
