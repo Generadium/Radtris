@@ -1,7 +1,5 @@
 file(REMOVE_RECURSE
   "CMakeFiles/tetris.dir/link.d"
-  "CMakeFiles/tetris.dir/src/Animations.cpp.o"
-  "CMakeFiles/tetris.dir/src/Animations.cpp.o.d"
   "CMakeFiles/tetris.dir/src/Board.cpp.o"
   "CMakeFiles/tetris.dir/src/Board.cpp.o.d"
   "CMakeFiles/tetris.dir/src/Cell.cpp.o"

@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/generadium/Projects/TetrisGame/src/Animations.cpp" "CMakeFiles/tetris.dir/src/Animations.cpp.o" "gcc" "CMakeFiles/tetris.dir/src/Animations.cpp.o.d"
   "/home/generadium/Projects/TetrisGame/src/Board.cpp" "CMakeFiles/tetris.dir/src/Board.cpp.o" "gcc" "CMakeFiles/tetris.dir/src/Board.cpp.o.d"
   "/home/generadium/Projects/TetrisGame/src/Cell.cpp" "CMakeFiles/tetris.dir/src/Cell.cpp.o" "gcc" "CMakeFiles/tetris.dir/src/Cell.cpp.o.d"
   "/home/generadium/Projects/TetrisGame/src/Game.cpp" "CMakeFiles/tetris.dir/src/Game.cpp.o" "gcc" "CMakeFiles/tetris.dir/src/Game.cpp.o.d"

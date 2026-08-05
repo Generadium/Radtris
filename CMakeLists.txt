@@ -11,7 +11,6 @@ add_executable(tetris
     src/Game.cpp
     src/Piece.cpp
     src/Board.cpp
-    src/Animations.cpp
 )
 
 target_include_directories(tetris PRIVATE

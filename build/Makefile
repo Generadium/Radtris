@@ -129,30 +129,6 @@ tetris/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/tetris.dir/build.make CMakeFiles/tetris.dir/build
 .PHONY : tetris/fast
 
-src/Animations.o: src/Animations.cpp.o
-.PHONY : src/Animations.o
-
-# target to build an object file
-src/Animations.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tetris.dir/build.make CMakeFiles/tetris.dir/src/Animations.cpp.o
-.PHONY : src/Animations.cpp.o
-
-src/Animations.i: src/Animations.cpp.i
-.PHONY : src/Animations.i
-
-# target to preprocess a source file
-src/Animations.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tetris.dir/build.make CMakeFiles/tetris.dir/src/Animations.cpp.i
-.PHONY : src/Animations.cpp.i
-
-src/Animations.s: src/Animations.cpp.s
-.PHONY : src/Animations.s
-
-# target to generate assembly for a file
-src/Animations.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/tetris.dir/build.make CMakeFiles/tetris.dir/src/Animations.cpp.s
-.PHONY : src/Animations.cpp.s
-
 src/Board.o: src/Board.cpp.o
 .PHONY : src/Board.o
 
@@ -282,9 +258,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... tetris"
-	@echo "... src/Animations.o"
-	@echo "... src/Animations.i"
-	@echo "... src/Animations.s"
 	@echo "... src/Board.o"
 	@echo "... src/Board.i"
 	@echo "... src/Board.s"

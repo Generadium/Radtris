@@ -279,7 +279,7 @@ void Game::draw(bool present) //creates the board
     }
     Piece preview(Cell(board_x + board.get_width() + 6, board_y + 8, 'O'), next);
 
-    draw_cell(board_x + (board.get_width() / 2) - 3, board_y - 1,"TETRIS");
+    draw_cell(board_x + (board.get_width() / 2) - 3, board_y - 1,"RADTRIS");
     draw_cell((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str());
     draw_cell((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str());
     draw_cell((board_x + board.get_width() + 2), board_y + 6, "Next piece: ");

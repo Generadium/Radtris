@@ -28,11 +28,5 @@
   "command": "/usr/bin/g++  -I/home/generadium/Projects/TetrisGame/include -g -std=gnu++17 -o CMakeFiles/tetris.dir/src/Board.cpp.o -c /home/generadium/Projects/TetrisGame/src/Board.cpp",
   "file": "/home/generadium/Projects/TetrisGame/src/Board.cpp",
   "output": "CMakeFiles/tetris.dir/src/Board.cpp.o"
-},
-{
-  "directory": "/home/generadium/Projects/TetrisGame/build",
-  "command": "/usr/bin/g++  -I/home/generadium/Projects/TetrisGame/include -g -std=gnu++17 -o CMakeFiles/tetris.dir/src/Animations.cpp.o -c /home/generadium/Projects/TetrisGame/src/Animations.cpp",
-  "file": "/home/generadium/Projects/TetrisGame/src/Animations.cpp",
-  "output": "CMakeFiles/tetris.dir/src/Animations.cpp.o"
 }
 ]
