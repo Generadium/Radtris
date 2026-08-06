@@ -1,7 +1,0 @@
-{
-	"InstallScripts" : 
-	[
-		"/home/generadium/Projects/TetrisGame/build/cmake_install.cmake"
-	],
-	"Parallel" : false
-}

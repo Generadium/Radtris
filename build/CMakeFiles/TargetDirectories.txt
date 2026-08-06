@@ -1,3 +1,0 @@
-/home/generadium/Projects/TetrisGame/build/CMakeFiles/tetris.dir
-/home/generadium/Projects/TetrisGame/build/CMakeFiles/edit_cache.dir
-/home/generadium/Projects/TetrisGame/build/CMakeFiles/rebuild_cache.dir
