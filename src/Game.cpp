@@ -30,9 +30,7 @@ Game::Game() // Game constructor
 
         running();
         again = regame();
-        if(again)
-            board.clear_built_points();
-        
+    
     } while (again);
 
     refresh();
@@ -158,19 +156,39 @@ bool Game::game_over() //declares the game over
 
 bool Game::regame() //game over screen, asks the player to play again
 {
+    board_x = std::max(0, (screen_width - board.get_width()) / 2);
+    board_y = std::max(0, (screen_height - board.get_height()) / 2);
+
     nodelay(stdscr, FALSE);
     flushinp();
 
     getmaxyx(stdscr, screen_height, screen_width);
-    int board_x = std::max(0, (screen_width - board.get_width()) / 2);
-    draw_cell((board_x - 27), 2, "GAME OVER");
-    draw_cell((board_x - 27), 3, "Want to play again? (y/n)");
+
+    draw_cell(board_x - 27, 2, "GAME OVER");
     refresh();
+
+    leaderboard();
+    draw_cell(board_x - 27, 5, "Want to play again? (y/n)");
+    draw_cell(board_x - 27, 6, "Press C to clear");
+    draw_cell(board_x - 27, 7, "the leaderboard");
 
     while (true)
     {
         const int c = getch();
-   
+
+        if(c == 'c' || c == 'C')
+        {
+            user_entry.clear_entries();
+            user_entry.erase_file();
+
+            for(int y = board.get_height(); y > 0; --y)
+                mvhline(y, board_x+2, ' ', board.get_width() - 4);
+
+            draw_cell(board_x + (board.get_width() / 2) - 4, board.get_height()/2, "Cleared!");
+
+            refresh();
+            continue;
+        }
         if (c == 'y' || c == 'Y') // if 'y' is entered, game restarts
         {
             nodelay(stdscr, TRUE);
@@ -283,9 +301,9 @@ void Game::draw(bool present) //creates the board
     draw_cell((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str());
     draw_cell((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str());
     draw_cell((board_x + board.get_width() + 2), board_y + 6, "Next piece: ");
-    draw_cell((board_x - 27),7,"Controls: ");
+    draw_cell((board_x - 27),9,"Controls: ");
 
-    int control_y = 10;
+    int control_y = 12;
     for(const Controls& controls : controls){
         std::string line = 
         std::string(controls.key) + " : " + controls.action;
@@ -421,4 +439,153 @@ Game::Result Game::readResult(Input key)
         default:
             return Result::none;
     }
+}
+
+void Game::leaderboard() //leaderboard game logic
+{
+
+
+    nodelay(stdscr, FALSE);
+    echo(); //displays user's input name
+    curs_set(1); //creates typehead
+
+    draw_cell((board_x - 27), 3, "Enter your name: ");
+    move(3, (board_x - 10));//position cursor
+    refresh();
+
+    auto scores = user_entry.read_scores();
+    //vector operations
+    user_entry.new_entry.name = user_entry.enter_name(); //name entered
+    user_entry.new_entry.score_num = score; //score entered
+
+    //push new score to score vector and resort
+    scores.push_back(user_entry.new_entry); // user score pushed to entries vector
+    std::sort(scores.begin(),scores.end(),
+    [](const auto& a, const auto& b){
+        return a.score_num > b.score_num;
+    });
+
+    noecho();
+    curs_set(0);
+    nodelay(stdscr, TRUE);
+
+    board.clear_built_points();
+    board.refresh();
+    final_points = board.get_all_points();
+
+    for(auto& point : final_points)
+    {
+        if(point.get_type() == '.')
+            point.set_type(' ');
+    }
+    draw();
+
+    //file-writing / display logic goes here
+    const int left_edge = board_x + 2;
+    const int right_edge = board_x + board.get_width() - 3;
+    int y_pos = 3;
+
+    draw_cell(board_x + (board.get_width() / 2) - 4, 2, "TOP SCORES");
+    //display scores on screen
+    for(auto& entry : scores)
+    {
+        int score_x = right_edge - static_cast<int>(std::to_string(entry.score_num).length()) + 1;
+        draw_cell(left_edge, y_pos, entry.name.c_str()); 
+        draw_cell(score_x, y_pos, std::to_string(entry.score_num).c_str()); //change position
+        ++y_pos;
+    }
+
+    refresh();
+
+    //save to file and clear both vectors
+    user_entry.save(scores);
+    scores.clear();
+    user_entry.clear_entries();
+}
+
+void Leaderboard::add_score(const Score& score)
+{
+    entries.push_back(score); //add entries to the entry vector
+}
+
+void Leaderboard::save(std::vector<Score> scores) const
+{
+    std::ofstream file("score/scores.csv", std::ios::trunc); //open scores.csv
+
+    if(!file)
+        return;
+
+    for (const Score& score : scores) //saves all scores in entries to scores.csv
+        file << score.name << ',' << score.score_num << '\n';
+
+    file.close(); //close file
+}
+
+std::vector<Leaderboard::Score> Leaderboard::read_scores()
+{
+    Score entry;
+
+    std::ifstream file("score/scores.csv"); //read from scores.csv
+    if(!file.is_open())
+        return {};
+
+    std::string line;
+    while(std::getline(file, line)) //while there are lines
+    {
+        std::string name;
+        std::string num_string;
+        int num = 0;
+
+        std::stringstream ss(line);
+        std::vector<std::string> names;
+        std::vector<std::string> score_nums;
+
+        if(std::getline(ss, name, ','))
+        {
+            try
+            {entry.name = name;}
+            catch(const std::exception& e){}
+            
+            if(std::getline(ss, num_string, ','))
+            {
+               try
+               {
+                    num = std::stoi(num_string);
+                    entry.score_num = num;
+               }
+               catch(const std::exception& e)
+               {}
+               
+            }
+        }
+        add_score(entry); //place scores from file into vector
+    }
+
+    file.close(); //close file
+
+    return entries;
+}
+
+std::string Leaderboard::enter_name() //user enters name into leaderboard
+{
+
+    getnstr(user_buf.data(), MAX_LEN); // user inputs name into buffer
+
+    std::string name{user_buf.data()}; // buffer converted into string
+    
+    return name;
+}
+
+void Leaderboard::clear_entries()
+{
+    entries.clear();
+}
+
+void Leaderboard::erase_file()
+{
+    std::ofstream file("score/scores.csv", std::ios::trunc);
+    if(!file)
+        return;
+
+    file.close();
 }

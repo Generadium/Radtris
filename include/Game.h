@@ -4,6 +4,7 @@
 #include <iostream> //function libraries
 #include <vector>
 #include <algorithm>
+#include <array>
 #include <thread>
 #include <chrono>
 #include <format>
@@ -12,6 +13,8 @@
 #include <cwchar>
 #include <unistd.h>
 #include <ncurses.h>
+#include <fstream>
+#include <sstream>
 
 using namespace std;
 
@@ -21,19 +24,29 @@ using namespace std;
 
 class Leaderboard {
 public:
-    void load();
-    void add_score(const std::string& name, int score);
-    void save() const;
 
     struct Score {
-    std::string name;
-    int score;
-    };
+        std::string name;
+        int score_num;
+    };    //structure for holding player names and scores
 
-    std::vector<Score> top_score(std::size_t limit = 10) const;
+    Score new_entry;
+
+    void add_score(const Score& score); //adds the score to the Score struct
+    void save(std::vector<Score> scores) const; //saves score file
+    void clear_entries();
+    void erase_file();
+
+    static constexpr std::size_t MAX_LEN = 15;
+    std::array<char, MAX_LEN + 1> user_buf{};
+
+    std::string enter_name(); //player enters name
+
+    std::vector<Score> get_entries(){ return entries;}
+    std::vector<Score> read_scores();
 
 private:
-    std::vector<Score> entries;
+    std::vector<Score> entries; //holds scores entered by players
 };
 
 class Game 
@@ -46,6 +59,8 @@ private:
     piece_type type; //variable for type of piece
     vector<Cell> final_points;
     vector<piece_type> bag;
+
+    Leaderboard user_entry;
 
     int lines_built = 0; // variable for number of lines built
     int score = 0; //score set to 0
@@ -119,6 +134,7 @@ public:
     void update_lock_delay(Result result, Clock::time_point now);
     void refill();
     void refresh_board();//refreshes all cells on the board
+    void leaderboard();
     
     bool blocksland(); // checks for collisions with the floor, wall, or with other pieces
     bool checked_move(enum move_direction dir); // checks if the piece is still able to move
