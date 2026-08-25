@@ -168,7 +168,7 @@ bool Game::regame() //game over screen, asks the player to play again
     refresh();
 
     leaderboard();
-    draw_cell(board_x - 27, 5, "Want to play again? (y/n)");
+    draw_cell(board_x - 27, 4, "Want to play again? (y/n)");
     draw_cell(board_x - 27, 6, "Press C to clear");
     draw_cell(board_x - 27, 7, "the leaderboard");
 
@@ -297,7 +297,9 @@ void Game::draw(bool present) //creates the board
     }
     Piece preview(Cell(board_x + board.get_width() + 6, board_y + 8, 'O'), next);
 
+    attron(A_BOLD);
     draw_cell(board_x + (board.get_width() / 2) - 3, board_y - 1,"RADTRIS");
+    attron(A_BOLD);
     draw_cell((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str());
     draw_cell((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str());
     draw_cell((board_x + board.get_width() + 2), board_y + 6, "Next piece: ");
@@ -443,8 +445,6 @@ Game::Result Game::readResult(Input key)
 
 void Game::leaderboard() //leaderboard game logic
 {
-
-
     nodelay(stdscr, FALSE);
     echo(); //displays user's input name
     curs_set(1); //creates typehead
@@ -480,10 +480,12 @@ void Game::leaderboard() //leaderboard game logic
     }
     draw();
 
-    //file-writing / display logic goes here
     const int left_edge = board_x + 2;
     const int right_edge = board_x + board.get_width() - 3;
-    int y_pos = 3;
+   initscr();
+    cbreak();
+    noecho();
+    keypad(stdscr, TRUE); int y_pos = 3;
 
     draw_cell(board_x + (board.get_width() / 2) - 4, 2, "TOP SCORES");
     //display scores on screen

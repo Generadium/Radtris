@@ -48,6 +48,8 @@ void Board::set_border()
                 point.set_type('<');
             else if (x == width - 1)
                 point.set_type('>');
+            else if (x == width - 2 || x == 1)
+                point.set_type('!');
             else
                 point.set_type('=');
         }
