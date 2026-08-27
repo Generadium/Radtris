@@ -129,12 +129,20 @@ public:
     void running(); // main game loop, this contains the main game sequence
     void draw_cell(int x, int y, char ch); //overloaded functions for drawing the game in the terminal
     void draw_cell(int x, int y, const char *text);
+    void draw_cell(int x, int y, const wchar_t* text);
     void draw(bool present = true); // draws the board on the screen
     void lock(); //converts the piece to built cells
     void update_lock_delay(Result result, Clock::time_point now);
     void refill();
     void refresh_board();//refreshes all cells on the board
     void leaderboard();
+
+    void animate_line(const std::vector<int>& rows);
+    void animate_board_init();
+    void animate_line_wipes(bool game_over, bool regame);
+    void animate_board_erase();
+    void draw_clear_frame(const std::vector<int>& rows, int dissolvedDistance, bool flashOn);
+    void white_block(int x, int y);
     
     bool blocksland(); // checks for collisions with the floor, wall, or with other pieces
     bool checked_move(enum move_direction dir); // checks if the piece is still able to move
@@ -145,6 +153,7 @@ public:
     bool regame(); // allows for the game to restarts if the player chooses
 
     int score_calc(const std::vector<int> completed_rows, int level);
+    int level_screen();
 
     piece_type generate_piece_type();
 

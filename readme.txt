@@ -1,6 +1,11 @@
-This is an improved version of a Tetris clone that I used as part of
-a college project. 
+Original concept by Alexey Pazhitnov
 
-Compile with animations: g++ -std=c++17 -D_XOPEN_SOURCE_EXTENDED   -Iinclude src/*.cpp -o tetris -lncursesw
+Radtris is a C++ based clone of Tetris designed to replicate the look and
+feel of the original 1984 implementation of the game that went on to take the 
+Soviet Union and the world by storm!
 
-Compile without animations: g++ src/*.cpp -Iinclude -std=c++17 -lncurses -o tetris
+This began as a simple project for a college programming class that I took a couple of years ago and I decided
+to return to it and improve its gameplay and graphics to give it more of a look and feel similar
+to the 1984 version written for the Elektronika 60 computer (seen in this video: https://www.youtube.com/watch?v=O0gAgQQHFcQ)
+
+All credit for the original design and gameplay goes to Alexey Pazhitnov for his wonderful creation! Спасибо!

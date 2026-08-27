@@ -11,15 +11,17 @@ Game::Game() // Game constructor
     keypad(stdscr, TRUE);
     nodelay(stdscr, TRUE);
 
+    animate_board_init();
+
     bool again = false;
     do // do while loop, run the game while regame is still true
     {
         board = Board(24, 22); // initializes the board dimensions using the board class constructor
         
+        //set all initial values to zero / false
         score = 0;
         lines_built = 0;
         piece_count = 0;
-        level = 0;
         paused = false;
         piece_active = false;
         lock_active = false;
@@ -28,8 +30,19 @@ Game::Game() // Game constructor
         erase();
         refresh();
 
+        //main game loop
         running();
+        //if play again
         again = regame();
+        if(again)
+        {
+            erase();
+            board.refresh();
+            draw(false);
+            refresh();
+
+            animate_line_wipes(false, again);
+        }
     
     } while (again);
 
@@ -48,23 +61,33 @@ void Game::draw_cell(int x, int y, const char *text){
     mvprintw(y, x, "%s", text);
 }
 
+void Game::draw_cell(int x, int y, const wchar_t* text)
+{
+    mvaddwstr(y, x, text);
+}
+
 void Game::running() //main game loop
 {
     next = generate_piece_type(); // next piece is preemptively generated
 
     while (!game_over()) //while it is not game over
     {
+        //initialize piece
         piece = Piece(Cell(board.get_width() / 2, board.get_height() - 24, 'O'), next); //piece generated
 
+        //next piece preview generated
         next = generate_piece_type();
         piece_active = true;
         lock_active = false;
         last_fall_time = Clock::now();
 
+        //while a piece is falling on the board
         while (piece_active)
         {
+            //read input from user
             Input input = readInput();
 
+            //if user pauses the game
             if (input == Input::pause)
             {
                 paused = !paused;
@@ -96,6 +119,7 @@ void Game::running() //main game loop
             const auto now = Clock::now();
             Result result = readResult(input);
 
+            //if piece is no longer active, break from loop
             if(!piece_active)
                 break;
 
@@ -112,21 +136,23 @@ void Game::running() //main game loop
 
         refresh_board();
 
+        //remove row and push blocks down afterward, increase score
         const auto complete_rows = board.get_completed_rows();
         if(!complete_rows.empty())
         {
-            //modify here?
+            animate_line(complete_rows);
             board.remove_row(complete_rows);
             lines_built += static_cast<int>(complete_rows.size());
             score = score_calc(complete_rows, level);
             refresh_board();
 
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
             board.points_fall(complete_rows);
             refresh_board();
         }
     }
 }
+
 
 int Game::score_calc(std::vector<int> completed_rows, int level)
 {
@@ -144,9 +170,9 @@ int Game::score_calc(std::vector<int> completed_rows, int level)
     return score;
 }
 
-bool Game::game_over() //declares the game over
+bool Game::game_over() 
 {
-    for (const auto& pnt : board.get_built_points()) // points to all built tiles in the game
+    for (const auto& pnt : board.get_built_points()) //if blocks reach top of the board, game is over
         if (pnt.get_y() <= 0)
         {
             return true;
@@ -154,7 +180,7 @@ bool Game::game_over() //declares the game over
     return false;
 }
 
-bool Game::regame() //game over screen, asks the player to play again
+bool Game::regame() //if player wants to play again
 {
     board_x = std::max(0, (screen_width - board.get_width()) / 2);
     board_y = std::max(0, (screen_height - board.get_height()) / 2);
@@ -176,41 +202,41 @@ bool Game::regame() //game over screen, asks the player to play again
     {
         const int c = getch();
 
+        //if player wants to clear top scores
         if(c == 'c' || c == 'C')
         {
             user_entry.clear_entries();
             user_entry.erase_file();
 
-            for(int y = board.get_height(); y > 0; --y)
-                mvhline(y, board_x+2, ' ', board.get_width() - 4);
+            for (int row = 2; row < board.get_height() - 2; ++row)
+                mvhline(board_y + row, board_x + 2, ' ', board.get_width() - 4);
 
-            draw_cell(board_x + (board.get_width() / 2) - 4, board.get_height()/2, "Cleared!");
-
+            draw_cell(board_x + (board.get_width() / 2) - 4, board_y + (board.get_height() / 2), "Cleared!");
+            
             refresh();
             continue;
         }
-        if (c == 'y' || c == 'Y') // if 'y' is entered, game restarts
+        if (c == 'y' || c == 'Y') //play again
         {
             nodelay(stdscr, TRUE);
 
             return true;
         }
-        if (c == 'n' || c == 'N') // if 'n' is entered, program terminates
+        if (c == 'n' || c == 'N') //quit
             return false; 
     }
 
 }
 
-bool Game::blocksland() // sends the bodies of pieced that land to built points when they land 
+bool Game::blocksland() //if piece lands on y = 1 or a built tile, convert it to a built tile
 {
-    for (const auto& next_piece_pnt : piece.fallen_body()) //const pointer that points to piece.next_fall_down_body()
+    for (const auto& next_piece_pnt : piece.fallen_body()) 
     {
-        //Sets the piece to hit the ground
-        if (next_piece_pnt.get_y() == 20)  //if piece hits y = 1
+        
+        if (next_piece_pnt.get_y() == 20)  
             return true;
         
-        //Sets piece to collide with built tiles
-        for (auto& built_pnt : board.get_built_points()) // if piece lands on top of a built piece
+        for (auto& built_pnt : board.get_built_points()) 
             if (next_piece_pnt == built_pnt) 
                 return true;
               
@@ -219,49 +245,50 @@ bool Game::blocksland() // sends the bodies of pieced that land to built points 
     return false;
 }
 
-bool Game::checked_move(enum move_direction dir)
+bool Game::checked_move(enum move_direction dir) // is the piece allowed to move?
 {
     for (const auto& next_piece_pnt : piece.moved_body(dir))
     { 
-        if (next_piece_pnt.get_x() <= 1 || next_piece_pnt.get_x() >= (board.get_width() - 3)) //prohibits pieces from going through the borders
+        if (next_piece_pnt.get_x() <= 1 || next_piece_pnt.get_x() >= (board.get_width() - 3)) //if piece is next to a border, no
             return false;
 
-        for (const auto& built_pnt : board.get_built_points()) // does not allow built points to move
+        for (const auto& built_pnt : board.get_built_points()) // if piece is next to a built tile, no
             if (built_pnt == next_piece_pnt)
                 return false;
     }
-
-    piece.move(dir); //otherwise, piece allowed to move
+    //otherwise, yes
+    piece.move(dir); 
     return true;
 }
 
-bool Game::checked_rotate() 
+bool Game::checked_rotate() // is the piece allowed to rotate?
 {
-    for (const auto& next_piece_pnt : piece.rotated_body()) // pointer to the rotated body of the current piece
+    for (const auto& next_piece_pnt : piece.rotated_body())
     {
-        if (next_piece_pnt.get_x() <= 1 || next_piece_pnt.get_x() >= (board.get_width() - 2)) //pieces on the border cannot rotate
+        if (next_piece_pnt.get_x() <= 1 || next_piece_pnt.get_x() >= (board.get_width() - 2)) //if piece is next to a border, no
             return false;
 
-        for (const auto& built_pnt : board.get_built_points()) // does not allow built points to rotate
+        for (const auto& built_pnt : board.get_built_points()) // if piece is next to built points, no
             if (built_pnt == next_piece_pnt)
                 return false;
     }
-    piece.rotate(); //otherwise, piece allowed to rotate
+    //otherwise, yes
+    piece.rotate(); 
     return true;
 }
 
-bool Game::can_fall()
+bool Game::can_fall() // is the piece falling?
 {
     for(const auto& next_piece_pnt : piece.fallen_body())
     {
-        if(next_piece_pnt.get_y() >= board.get_height() - 2) //if next position contains built points
+        if(next_piece_pnt.get_y() >= board.get_height() - 2) //if piece is at y = 1, no
             return false;
 
-        for(const auto& built_point : board.get_built_points())
+        for(const auto& built_point : board.get_built_points()) // if piece is above built points, no
             if(next_piece_pnt == built_point)
                 return false;
     }
-
+    //otherwise, yes
     return true;
 }
 
@@ -273,7 +300,7 @@ bool Game::checked_fall()
     return true;
 }
 
-void Game::draw(bool present) //creates the board
+void Game::draw(bool present) //creates the board and messages
 {
     erase();
 
@@ -282,28 +309,28 @@ void Game::draw(bool present) //creates the board
     int board_x = std::max(0, (screen_width - board.get_width()) / 2);
     int board_y = std::max(0, (screen_height - board.get_height()) / 2);
 
-    for (int i = (board.get_height() - 1); i >= 0; --i) // double nested for loop
+    for (int i = (board.get_height() - 1); i >= 0; --i) 
     { 
         for (int j = 0; j < board.get_width(); ++j) {
-            auto t = find(final_points.begin(), final_points.end(), Cell(j, i)); // uses find function to find all final points within range of for loop
+            auto t = find(final_points.begin(), final_points.end(), Cell(j, i)); //builds the body of the piece
             if(t == final_points.end()) continue;
-            if(t->get_type() == 'O'){
-                draw_cell(board_x + j, board_y + i, "[]");
+            if(t->get_type() == 'O'){ // draws piece first with O
+                draw_cell(board_x + j, board_y + i, "[]"); // then draws [] cells to create block characters
                 ++j;
             } else {
-                draw_cell(board_x + j, board_y + i, t->get_type());
+                draw_cell(board_x + j, board_y + i, t->get_type()); //otherwise, draw everything according to its char type
             }
         }    
     }
-    Piece preview(Cell(board_x + board.get_width() + 6, board_y + 8, 'O'), next);
+    Piece preview(Cell(board_x + board.get_width() + 6, board_y + 8, 'O'), next); // draw preview piece in slot
 
     attron(A_BOLD);
-    draw_cell(board_x + (board.get_width() / 2) - 3, board_y - 1,"RADTRIS");
+    draw_cell(board_x + (board.get_width() / 2) - 3, board_y - 1,"RADTRIS"); // game title
     attron(A_BOLD);
-    draw_cell((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str());
-    draw_cell((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str());
-    draw_cell((board_x + board.get_width() + 2), board_y + 6, "Next piece: ");
-    draw_cell((board_x - 27),9,"Controls: ");
+    draw_cell((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str()); // display score
+    draw_cell((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str()); // display lines built
+    draw_cell((board_x + board.get_width() + 2), board_y + 6, "Next piece: "); // preview slot
+    draw_cell((board_x - 27),9,"Controls: "); // display controls
 
     int control_y = 12;
     for(const Controls& controls : controls){
@@ -319,24 +346,24 @@ void Game::draw(bool present) //creates the board
         refresh();
 }
 
-void Game::refresh_board()
+void Game::refresh_board() // update char types of board characters
 {
     board.refresh();
-    final_points = board.get_all_points(); // gathers all tiles
+    final_points = board.get_all_points(); 
     if(piece_active)
     {
-    for (auto &final_pnt : final_points) // pointer to all cells at the end of a game
-        for (auto piece_pnt : piece.get_body()) // sets all built cells to final cells
+    for (auto &final_pnt : final_points) 
+        for (auto piece_pnt : piece.get_body()) 
             if (final_pnt == piece_pnt)
                 final_pnt = piece_pnt;
     }
     draw();
 }
 
-void Game::lock()
+void Game::lock() // lock piece into place
 {
     board.insert_to_built_points(piece.get_body());//sends current piece to built points (tiles that have been built)
-    piece_count++; // adds to piece count
+    piece_count++; 
     piece_active = false;
     lock_active = false;
 }
@@ -363,7 +390,7 @@ void Game::update_lock_delay(Game::Result result, Clock::time_point now)
         lock();
 }
 
-piece_type Game::generate_piece_type()
+piece_type Game::generate_piece_type() // randomly generate the piece type
 {
     if(bag.empty())
         refill();
@@ -374,7 +401,7 @@ piece_type Game::generate_piece_type()
     return next;
 }
 
-void Game::refill()
+void Game::refill() //refill the piece type bag
 {
     bag = {
         t_piece,
@@ -393,7 +420,8 @@ void Game::refill()
     );
 }
 
-Game::Input Game::readInput(){
+Game::Input Game::readInput()// read input from user
+{
  
     int ch = getch();
 
@@ -411,7 +439,7 @@ Game::Input Game::readInput(){
 
 }
 
-Game::Result Game::readResult(Input key)
+Game::Result Game::readResult(Input key) // results from user input
 {
     switch(key)
     {
@@ -454,11 +482,11 @@ void Game::leaderboard() //leaderboard game logic
     refresh();
 
     auto scores = user_entry.read_scores();
-    //vector operations
-    user_entry.new_entry.name = user_entry.enter_name(); //name entered
+    // vector operations
+    user_entry.new_entry.name = user_entry.enter_name(); // name entered
     user_entry.new_entry.score_num = score; //score entered
 
-    //push new score to score vector and resort
+    // push new score to score vector and resort
     scores.push_back(user_entry.new_entry); // user score pushed to entries vector
     std::sort(scores.begin(),scores.end(),
     [](const auto& a, const auto& b){
@@ -469,7 +497,10 @@ void Game::leaderboard() //leaderboard game logic
     curs_set(0);
     nodelay(stdscr, TRUE);
 
+    animate_board_erase();
     board.clear_built_points();
+    animate_line_wipes(true, false);
+
     board.refresh();
     final_points = board.get_all_points();
 
@@ -482,7 +513,7 @@ void Game::leaderboard() //leaderboard game logic
 
     const int left_edge = board_x + 2;
     const int right_edge = board_x + board.get_width() - 3;
-   initscr();
+    initscr();
     cbreak();
     noecho();
     keypad(stdscr, TRUE); int y_pos = 3;
@@ -495,6 +526,9 @@ void Game::leaderboard() //leaderboard game logic
         draw_cell(left_edge, y_pos, entry.name.c_str()); 
         draw_cell(score_x, y_pos, std::to_string(entry.score_num).c_str()); //change position
         ++y_pos;
+
+        refresh();
+        std::this_thread::sleep_for(std::chrono::milliseconds(25));
     }
 
     refresh();
