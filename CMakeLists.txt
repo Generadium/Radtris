@@ -5,7 +5,7 @@ project(TetrisGame)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-add_executable(tetris
+add_executable(radtris
     src/Main.cpp
     src/Cell.cpp
     src/Game.cpp
@@ -14,13 +14,13 @@ add_executable(tetris
     src/Animations.cpp
 )
 
-target_include_directories(tetris PRIVATE
+target_include_directories(radtris PRIVATE
     include
 )
 
 if (UNIX AND NOT APPLE)
     set(CURSES_NEED_WIDE TRUE)
     find_package(Curses REQUIRED)
-    target_include_directories(tetris PRIVATE ${CURSES_INCLUDE_DIR})
-    target_link_libraries(tetris PRIVATE ${CURSES_LIBRARIES})
+    target_include_directories(radtris PRIVATE ${CURSES_INCLUDE_DIR})
+    target_link_libraries(radtris PRIVATE ${CURSES_LIBRARIES})
 endif()

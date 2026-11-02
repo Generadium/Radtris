@@ -3,6 +3,7 @@
 Game::Game() // Game constructor
     : run {true}
 {
+
     std::setlocale(LC_ALL, "");
     initscr();
     noecho();
@@ -151,6 +152,18 @@ void Game::running() //main game loop
             refresh_board();
         }
     }
+}
+
+int Game::enter_level()
+{
+    board_x = std::max(0, (screen_width - board.get_width()) / 2);
+    board_y = std::max(0, (screen_height - board.get_height()) / 2);
+
+    draw_cell(board_x + (board.get_width() / 2) - 4, board_y + (board.get_height() / 2),"Enter level(0 - 10):");
+    move(board_x + (board.get_width() / 2) - 4, board_y + (board.get_height() / 2) + 1);//position cursor
+    refresh();
+
+    return level;
 }
 
 
@@ -362,7 +375,7 @@ void Game::refresh_board() // update char types of board characters
 
 void Game::lock() // lock piece into place
 {
-    board.insert_to_built_points(piece.get_body());//sends current piece to built points (tiles that have been built)
+    board.insert_to_built_points(piece.get_body());//converts active piece body into built tiles
     piece_count++; 
     piece_active = false;
     lock_active = false;

@@ -2,4 +2,7 @@
 /build/
 
 # Compiled executable
-/tetris
+/radtris
+
+#Old build files
+/build.before-radtris/

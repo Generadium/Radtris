@@ -153,7 +153,7 @@ public:
     bool regame(); // allows for the game to restarts if the player chooses
 
     int score_calc(const std::vector<int> completed_rows, int level);
-    int level_screen();
+    int enter_level();
 
     piece_type generate_piece_type();
 

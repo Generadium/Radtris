@@ -9,3 +9,7 @@ to return to it and improve its gameplay and graphics to give it more of a look 
 to the 1984 version written for the Elektronika 60 computer (seen in this video: https://www.youtube.com/watch?v=O0gAgQQHFcQ)
 
 All credit for the original design and gameplay goes to Alexey Pazhitnov for his wonderful creation! Спасибо!
+
+To run this game, first build it with: g++ -std=c++17 -D_XOPEN_SOURCE_EXTENDED   -Iinclude src/*.cpp -o radtris -lncursesw
+
+and execute with: ./radtris
