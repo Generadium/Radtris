@@ -13,8 +13,3 @@ All credit for the original design and gameplay goes to Alexey Pazhitnov for his
 To run this game, first build it with: g++ -std=c++17 -D_XOPEN_SOURCE_EXTENDED   -Iinclude src/*.cpp -o radtris -lncursesw
 
 and execute with: ./radtris
-
-Games start at level 0 and advance one level for every 10 cleared lines, up to
-level 10. The current level appears above the next-piece preview. Gravity follows
-the classic NES speed curve, from about 800 ms per row at level 0 to 83 ms at
-level 10. Choosing to play again resets the level and speed.
