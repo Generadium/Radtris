@@ -29,7 +29,7 @@ Game::Game() // Game constructor
         //main game loop
         running();
         //if play again
-        again = regame();
+        again = run && regame();
         if(again)
         {
             erase();
@@ -99,12 +99,19 @@ void Game::running() //main game loop
 
             if(paused)
             {
+                if (input == Input::quit)
+                {
+                    run = false;
+                    return;
+                }
+
                 draw();
                 getmaxyx(stdscr, screen_height, screen_width);
                 int board_x = std::max(0, (screen_width - board.get_width()) / 2);
 
                 draw_cell((board_x - 27),2,"PAUSED");
                 draw_cell((board_x - 27),3,"Press p to resume");
+                draw_cell((board_x - 27),4,"Press q to quit");
                 refresh();
 
                 std::this_thread::sleep_for(std::chrono::milliseconds(20));
@@ -433,6 +440,8 @@ Game::Input Game::readInput()// read input from user
         case ' ': return Input::space;
         case 'p':
         case 'P': return Input::pause;
+        case 'q':
+        case 'Q': return Input::quit;
         case KEY_RESIZE: clearok(stdscr, TRUE); return Input::none;
         default: return Input::none;
     }

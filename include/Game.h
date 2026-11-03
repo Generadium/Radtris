@@ -107,6 +107,7 @@ private:
         left,
         space,
         pause,
+        quit,
         none
     };
 
