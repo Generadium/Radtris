@@ -4,12 +4,7 @@ Game::Game() // Game constructor
     : run {true}
 {
 
-    std::setlocale(LC_ALL, "");
-    initscr();
-    noecho();
-    cbreak();
-    curs_set(0);
-    keypad(stdscr, TRUE);
+    // main() owns the terminal session and its selected color scheme.
     nodelay(stdscr, TRUE);
 
     animate_board_init();
@@ -21,7 +16,7 @@ Game::Game() // Game constructor
         
         //set all initial values to zero / false
         score = 0;
-        lines_built = 0;
+        progression.reset();
         piece_count = 0;
         paused = false;
         piece_active = false;
@@ -48,8 +43,6 @@ Game::Game() // Game constructor
     } while (again);
 
     refresh();
-    endwin();
-    std::cout << "\033[2J\033[H" << std::flush;
 
 }
 
@@ -81,6 +74,7 @@ void Game::running() //main game loop
         piece_active = true;
         lock_active = false;
         last_fall_time = Clock::now();
+        const auto grav_interval = progression.gravity_interval();
 
         //while a piece is falling on the board
         while (piece_active)
@@ -124,10 +118,15 @@ void Game::running() //main game loop
             if(!piece_active)
                 break;
 
-            if(now - last_fall_time >= grav_interval)
+            // Preserve elapsed time so polling does not flatten the faster levels.
+            while(now - last_fall_time >= grav_interval)
             {
-                checked_fall();
-                last_fall_time = now;
+                last_fall_time += grav_interval;
+                if (!checked_fall())
+                {
+                    last_fall_time = now;
+                    break;
+                }
             }
 
             update_lock_delay(result, Clock::now());
@@ -143,8 +142,8 @@ void Game::running() //main game loop
         {
             animate_line(complete_rows);
             board.remove_row(complete_rows);
-            lines_built += static_cast<int>(complete_rows.size());
-            score = score_calc(complete_rows, level);
+            progression.add_lines(static_cast<int>(complete_rows.size()));
+            score = score_calc(complete_rows, progression.level());
             refresh_board();
 
             std::this_thread::sleep_for(std::chrono::milliseconds(10));
@@ -153,19 +152,6 @@ void Game::running() //main game loop
         }
     }
 }
-
-int Game::enter_level()
-{
-    board_x = std::max(0, (screen_width - board.get_width()) / 2);
-    board_y = std::max(0, (screen_height - board.get_height()) / 2);
-
-    draw_cell(board_x + (board.get_width() / 2) - 4, board_y + (board.get_height() / 2),"Enter level(0 - 10):");
-    move(board_x + (board.get_width() / 2) - 4, board_y + (board.get_height() / 2) + 1);//position cursor
-    refresh();
-
-    return level;
-}
-
 
 int Game::score_calc(std::vector<int> completed_rows, int level)
 {
@@ -341,7 +327,8 @@ void Game::draw(bool present) //creates the board and messages
     draw_cell(board_x + (board.get_width() / 2) - 3, board_y - 1,"RADTRIS"); // game title
     attron(A_BOLD);
     draw_cell((board_x + board.get_width() + 2), board_y + 1, ("Score: " + to_string(score)).c_str()); // display score
-    draw_cell((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(lines_built)).c_str()); // display lines built
+    draw_cell((board_x + board.get_width() + 2), board_y + 2, ("Lines built: " + to_string(progression.lines())).c_str()); // display lines built
+    draw_cell((board_x + board.get_width() + 2), board_y + 4, ("Level: " + to_string(progression.level())).c_str());
     draw_cell((board_x + board.get_width() + 2), board_y + 6, "Next piece: "); // preview slot
     draw_cell((board_x - 27),9,"Controls: "); // display controls
 
@@ -526,10 +513,7 @@ void Game::leaderboard() //leaderboard game logic
 
     const int left_edge = board_x + 2;
     const int right_edge = board_x + board.get_width() - 3;
-    initscr();
-    cbreak();
-    noecho();
-    keypad(stdscr, TRUE); int y_pos = 3;
+    int y_pos = 3;
 
     draw_cell(board_x + (board.get_width() / 2) - 4, 2, "TOP SCORES");
     //display scores on screen

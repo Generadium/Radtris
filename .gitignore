@@ -6,3 +6,6 @@
 
 #Old build files
 /build.before-radtris/
+
+# VS Code workspace settings
+/.vscode/

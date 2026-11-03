@@ -21,6 +21,7 @@ using namespace std;
 #include "Cell.h" // includes functions and variables from the Cell, Piece, and Board header files
 #include "Piece.h"
 #include "Board.h"
+#include "LevelProgression.h"
 
 class Leaderboard {
 public:
@@ -62,10 +63,9 @@ private:
 
     Leaderboard user_entry;
 
-    int lines_built = 0; // variable for number of lines built
+    LevelProgression progression;
     int score = 0; //score set to 0
     int piece_count = 0; // number of pieces that have fallen
-    int level = 0; // intial value of the level
     int board_x = 0; // x axis of the board
     int board_y = 0; // y axis of the board
     int screen_width = 0; //controls width of the screen
@@ -84,7 +84,6 @@ private:
     Clock::time_point last_fall_time;
     Clock::time_point grounded_since;
 
-    std::chrono::milliseconds grav_interval{500};
     std::chrono::milliseconds lock_delay{500};
 
     struct Controls {
@@ -153,7 +152,6 @@ public:
     bool regame(); // allows for the game to restarts if the player chooses
 
     int score_calc(const std::vector<int> completed_rows, int level);
-    int enter_level();
 
     piece_type generate_piece_type();
 
